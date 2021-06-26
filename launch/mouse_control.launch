@@ -1,0 +1,25 @@
+<!--
+
+
+
+
+
+
+
+-->
+
+<launch>
+    <!--  -->
+    <param name="vel_lx" type="double" value="0.0" />
+    <param name="vel_ly" type="double" value="0.0" />
+    <param name="vel_rx" type="double" value="0.0" />
+    <param name="vel_ry" type="double" value="0.0" />
+    <param name="vel_dx" type="double" value="0.0" />
+    <param name="vel_dy" type="double" value="0.0" />
+
+    <!-- Start the playstation 4 joystick listener -->
+    <node name="mouse_runner" pkg="mouse_controller" type="mouse_runner.py" output="screen"/>
+    <node name="mouse_walker" pkg="mouse_controller" type="mouse_walker.py" output="screen"/>
+    
+
+</launch>
