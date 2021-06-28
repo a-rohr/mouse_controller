@@ -39,10 +39,10 @@ class Leg_Controller:
         next_leg_positions = self.compute_next_leg_positions(leg_states, leg_timings, leg_velocities, alphas)
 
         # Only for testing purposes
-        return next_leg_positions
+        next_leg_positions
         leg_q_values = self.ik_legs.run_inverse_leg_kinematics(next_leg_positions)
 
-        return leg_q_values 
+        return (next_leg_positions, leg_q_values) 
 
     def compute_turn_alphas(self, turn_rate):
         # In here we compute alpha value adjustments for specified turn rates
@@ -96,7 +96,52 @@ class Inverse_Leg_Kinematics:
         self.lu_rl = Leg_Unit('rr3',rear_leg_t3_param)
         self.lu_rr = Leg_Unit('rr3',rear_leg_t3_param)
 
-    def run_inverse_leg_kinematics(self,new_target_leg_positions):
-        print("Compute the necessary q_values for our leg")
-        return
+    def run_inverse_leg_kinematics(self,new_target_leg_positions,timer=0.01):
+        # Todo 
+        # Replace the timer value with the actual timer
+        # Check whether such an implementation actual works
+        # print("Compute the necessary q_values for our leg")
+        difference = self.compute_pos_difference(new_target_leg_positions)
+        # Velocity passed to the inverse kinematics of the legs must be (2,)
+        q_values_legs = self.compute_inverse_kinematics(difference,timer)
 
+        return q_values_legs
+
+    def compute_pos_difference(self, new_target_leg_positions):
+        # Note that the current_leg_position() returns a (3,) vector of (x,y,z)
+        # We only care about (y,z) so need to slice the vector/matrix
+        current_leg_positions = np.array([self.lu_fl.current_leg_position(),
+                                                self.lu_fr.current_leg_position(),
+                                                self.lu_rl.current_leg_position(),
+                                                self.lu_rr.current_leg_position()])
+        print("Current leg positions: {}".format(current_leg_positions))
+        print("Target leg positions: {}",format(new_target_leg_positions))
+        difference = new_target_leg_positions - current_leg_positions[:,1:]
+
+        return difference
+
+    def compute_inverse_kinematics(self, difference,timer=0.01):
+        vel = difference
+        print("Positional difference of target and goal: {}".format(vel))
+        current_q_values = self.internal_q_value_return()
+        print("Parmeters for the first leg:")
+        print("Current q_values of the leg: {}".format(current_q_values[0,:]))
+        q_values_fl = self.lu_fl.kinematic_update_no_mp(vel[0,:],current_q_values[0,:],timer)
+        q_values_fr = self.lu_fr.kinematic_update_no_mp(vel[1,:],current_q_values[1,:],timer)
+        # q_values_fl = np.array([0,0])
+        # q_values_fr = np.array([0,0])
+        q_values_rl = self.lu_rl.kinematic_update_no_mp(vel[2,:],current_q_values[2,:],timer)
+        q_values_rr = self.lu_rr.kinematic_update_no_mp(vel[3,:],current_q_values[3,:],timer)
+        # print("Elapsed total sim time: {}".format(time.perf_counter() - time_start))
+
+        return np.concatenate((q_values_fl, q_values_fr,q_values_rl,q_values_rr))
+
+
+    def internal_q_value_return(self):
+        # Placeholder function until feedback from the q-values arrives
+        current_q_values = np.array([self.lu_fl.current_leg_servos(),
+                                    self.lu_fr.current_leg_servos(),
+                                    self.lu_rl.current_leg_servos(),
+                                    self.lu_rr.current_leg_servos()])
+        
+        return current_q_values

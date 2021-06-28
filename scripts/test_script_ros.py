@@ -85,9 +85,9 @@ def mouse_node(rate):
         vel_in = 0.05*rospy.get_param("/vel_ly")
         vel = vel_in * np.ones((4,))
         leg_states, leg_timings = fsm.run_state_machine()
-        target_leg_positions = leg_controller.run_controller(leg_states, leg_timings, vel)
+        target_leg_positions, q_values = leg_controller.run_controller(leg_states, leg_timings, vel)
         target_leg_positions.astype(dtype=np.float32)
-        print(target_leg_positions)
+        print(q_values)
         target_leg_x = target_leg_positions[:,0]
         target_leg_y = target_leg_positions[:,1]
         target_leg_x_f.data = target_leg_x.tolist()
@@ -101,6 +101,6 @@ def mouse_node(rate):
 if __name__ == "__main__":
     try:
 
-        mouse_node(rate=60)
+        mouse_node(rate=200)
     except rospy.ROSInterruptException:
         pass

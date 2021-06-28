@@ -118,7 +118,7 @@ class Leg_Unit:
 
         return q_vals
 
-    def kinematic_update_no_mp(self, leg_vel, current_servos, time_step, lifted):
+    def kinematic_update_no_mp(self, leg_vel, current_servos, time_step):
 
         # Update the leg models with current servo positions
         self.leg_model.update_servo_pos(current_servos)

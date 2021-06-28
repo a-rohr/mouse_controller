@@ -91,8 +91,10 @@ class Front_Leg3:
         # OUTPUT: 
         #       none
 
+        # print("q1, q2 before update servo positions: {}, {}".format(self.leg_param['q1'],self.leg_param['q2']))
         self.leg_param['q1'] = (self.leg_param['q1'] + pos[0])/2
         self.leg_param['q2'] = (self.leg_param['q2'] + pos[1])/2
+        # print("q1, q2 after update servo positions: {}, {}".format(self.leg_param['q1'],self.leg_param['q2']))
         # self.leg_param['q1'] = (self.leg_param['q1'] + pos[0])/2
         # self.leg_param['q2'] = (self.leg_param['q2'] + pos[3])/2
 
@@ -185,6 +187,7 @@ class Front_Leg3:
         q1 = self.leg_param['q1']
         q2 = self.leg_param['q2']
 
+        # print("Time_step: {}".format(time_step))
         yH_dot = vel_B[0]
         zH_dot = vel_B[1]
 
@@ -195,7 +198,7 @@ class Front_Leg3:
         # sol_q1_dot = lambda x , y : (yB_dot - (zB_dot*v2(x,y))/v1(y))/(l1*np.cos(x) - (l1*v2(x,y)*np.sin(x))/v1(y))
 
         # sol_q2_dot = lambda x , y : -1*(l1*(zB_dot*l1*np.cos(x)-yB_dot*l1*np.sin(x)-zB_dot*l2*v2(x,y)+yB_dot*l2*v1(y)))/(rp*(lr0+y*rp)*(l1*np.cos(x)-(l1*v2(x,y)*np.sin(x))/v1(y)))
-
+        # print("q1, q2 before computation: {}, {}".format(q1,q2))
         sol_q1_dot = lambda x,y: -(zH_dot*l4*np.cos(x - theta3 + np.arccos((l1**2/2 - (lr0 + y*rp)**2/2 + l2**2/2)/(l1*l2))) - yH_dot*l4*np.sin(x - theta3 + np.arccos((l1**2/2 - (lr0 + y*rp)**2/2 + l2**2/2)/(l1*l2))) + zH_dot*l3*np.cos(x + np.arccos((l1**2/2 - (lr0 + y*rp)**2/2 + l2**2/2)/(l1*l2))) - yH_dot*l3*np.sin(x + np.arccos((l1**2/2 - (lr0 + y*rp)**2/2 + l2**2/2)/(l1*l2))))/(l1*(l4*np.cos(x)*np.sin(x - theta3 + np.arccos((l1**2/2 - (lr0 + y*rp)**2/2 + l2**2/2)/(l1*l2))) - l4*np.cos(x - theta3 + np.arccos((l1**2/2 - (lr0 + y*rp)**2/2 + l2**2/2)/(l1*l2)))*np.sin(x) - l3*np.cos(x + np.arccos((l1**2/2 - (lr0 + y*rp)**2/2 + l2**2/2)/(l1*l2)))*np.sin(x) + l3*np.sin(x + np.arccos((l1**2/2 - (lr0 + y*rp)**2/2 + l2**2/2)/(l1*l2)))*np.cos(x)))
         sol_q2_dot = lambda x,y: -(l2*np.sqrt(1 - (- l1**2 - l2**2 + lr0**2 + 2*lr0*y*rp + y**2*rp**2)**2/(4*l1**2*l2**2))*(zH_dot*l1*np.cos(x) - yH_dot*l1*np.sin(x) + zH_dot*l3*np.cos(x - np.arccos((- l1**2 - l2**2 + lr0**2 + 2*lr0*y*rp + y**2*rp**2)/(2*l1*l2))) - yH_dot*l3*np.sin(x - np.arccos((- l1**2 - l2**2 + lr0**2 + 2*lr0*y*rp + y**2*rp**2)/(2*l1*l2))) + zH_dot*l4*np.cos(theta3 - x + np.arccos((- l1**2 - l2**2 + lr0**2 + 2*lr0*y*rp + y**2*rp**2)/(2*l1*l2))) + yH_dot*l4*np.sin(theta3 - x + np.arccos((- l1**2 - l2**2 + lr0**2 + 2*lr0*y*rp + y**2*rp**2)/(2*l1*l2)))))/(rp*(lr0 + y*rp)*(l4*np.cos(theta3 - x + np.arccos((- l1**2 - l2**2 + lr0**2 + 2*lr0*y*rp + y**2*rp**2)/(2*l1*l2)))*np.sin(x) + l4*np.sin(theta3 - x + np.arccos((- l1**2 - l2**2 + lr0**2 + 2*lr0*y*rp + y**2*rp**2)/(2*l1*l2)))*np.cos(x) + l3*np.cos(x - np.arccos((- l1**2 - l2**2 + lr0**2 + 2*lr0*y*rp + y**2*rp**2)/(2*l1*l2)))*np.sin(x) - l3*np.sin(x - np.arccos((- l1**2 - l2**2 + lr0**2 + 2*lr0*y*rp + y**2*rp**2)/(2*l1*l2)))*np.cos(x)))
 
@@ -220,5 +223,6 @@ class Front_Leg3:
         self.leg_param['q2_p'] = q2
         self.leg_param['q1'] = sol_q1
         self.leg_param['q2'] = sol_q2
+        # print("q1, q2 after computation: {}, {}".format(sol_q1,sol_q2))
 
         return np.array([self.leg_param['q1'], self.leg_param['q2']])
