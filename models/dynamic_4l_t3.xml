@@ -25,7 +25,7 @@
         <camera name="body_cam" mode="fixed" pos="0.6 0 0.02" euler="90 90 0"/>
 
         <body name="mouse" pos  ="0 0 0.2">
-            <!--joint name="rail" type="free" /-->
+            <joint name="rail" type="free" />
             <geom name="mouse_body" mass="0.17" type="box" pos="0 0.04 0" size="0.0115 0.048 0.025" rgba="0.8 0.8 0.8 0"/>
 
             <body name="visual_mouse_body" pos="0 0 0" euler="0 0 0">

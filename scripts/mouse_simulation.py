@@ -84,6 +84,7 @@ def callback_q_values(data):
     csv_rl = sim.data.sensordata[8:]
     csv_rr = sim.data.sensordata[12:]
 
+    # Catch values for the q-values from ROS
     print("Callback hit")
     print(data.data)
     q_values_leg = np.array((data.data))
@@ -105,6 +106,7 @@ def run_simulation(rate):
     rospy.init_node("mouse_simulation", anonymous=True)
     r = rospy.Rate(rate)
 
+    # Subscribe to the q_values of the leg controller
     rospy.Subscriber('q_values', Floats, callback_q_values, queue_size = 1)
 
     while(not rospy.is_shutdown()):
