@@ -166,6 +166,7 @@ catkin_install_python(PROGRAMS
   scripts/mouse_runner.py
   scripts/mouse_walker.py
   scripts/test_script_ros.py
+  scripts/mouse_simulation.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

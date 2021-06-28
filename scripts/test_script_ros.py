@@ -84,7 +84,7 @@ def mouse_node(rate):
     target_q_values = Floats()
 
     while(not rospy.is_shutdown()):
-        vel_in = 0.05*rospy.get_param("/vel_ly")
+        vel_in = 0.1*rospy.get_param("/vel_ly")
         vel = vel_in * np.ones((4,))
         leg_states, leg_timings = fsm.run_state_machine()
         target_leg_positions, q_values = leg_controller.run_controller(leg_states, leg_timings, vel)

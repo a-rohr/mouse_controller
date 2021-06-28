@@ -20,6 +20,8 @@
     <!-- Start the playstation 4 joystick listener -->
     <node name="mouse_runner" pkg="mouse_controller" type="mouse_runner.py" output="screen"/>
     <node name="test_script" pkg="mouse_controller" type="test_script_ros.py" output="screen"/>
+    <node name="mouse_sim" pkg="mouse_controller" type="mouse_simulation.py" output="screen"/>
+
     
 
 </launch>
