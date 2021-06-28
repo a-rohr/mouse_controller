@@ -63,6 +63,7 @@ def mouse_node(rate):
     pub_x = rospy.Publisher('leg_outputs_x', Floats, queue_size=1)
     pub_y = rospy.Publisher('leg_outputs_y', Floats, queue_size=1)
     pub_vel = rospy.Publisher('velocity_joy', Float32, queue_size=1)
+    pub_q_values = rospy.Publisher('q_values', Floats, queue_size=1)
     r = rospy.Rate(rate)
 
     gait_parameters2 = Gait_Parameters()
@@ -80,6 +81,7 @@ def mouse_node(rate):
     # rospy.Subscriber("joy", Joy, callback_vel, queue_size=1)
     target_leg_x_f = Floats()
     target_leg_y_f = Floats()
+    target_q_values = Floats()
 
     while(not rospy.is_shutdown()):
         vel_in = 0.05*rospy.get_param("/vel_ly")
@@ -87,14 +89,18 @@ def mouse_node(rate):
         leg_states, leg_timings = fsm.run_state_machine()
         target_leg_positions, q_values = leg_controller.run_controller(leg_states, leg_timings, vel)
         target_leg_positions.astype(dtype=np.float32)
+        q_values.astype(dtype=np.float32)
         print(q_values)
         target_leg_x = target_leg_positions[:,0]
         target_leg_y = target_leg_positions[:,1]
         target_leg_x_f.data = target_leg_x.tolist()
         target_leg_y_f.data = target_leg_y.tolist()
+        target_q_values.data = q_values.tolist()
         pub_x.publish(target_leg_x_f)
         pub_y.publish(target_leg_y_f)
         pub_vel.publish(vel_in)
+        pub_q_values.publish(target_q_values)
+
         r.sleep()
 
 
