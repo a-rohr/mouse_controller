@@ -45,7 +45,7 @@ class Gait_Parameters:
                                 'amp_stance':           0.025,
                                 'max_stride_length':    0.04,
                                 'neutral_stance_pos':   -0.035,
-                                'neutral_stride_pos':   -0.005,
+                                'neutral_stride_pos':   -0.015,
                                 'cycle_distr':          self.st_trot_parameters['cycle_distr'],
                                 'leg_cycle_offset':     self.st_trot_parameters['leg_cycle_offset']}
 
