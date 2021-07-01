@@ -48,7 +48,7 @@
             <site name="x1_rl" pos="0.025 0.02 0.0064" size="0.002" rgba=".1 .1 .8 0.2"/>
             <body name="servo2_rl" pos="0.025 0.0025 0.0064">
                 <geom name="motor2_rl" type="cylinder" mass="0.002" fromto="-0.003 0 0 0.003 0 0" size="0.008" rgba=".8 .1 .1 0" />
-                <joint name="m2_rl" pos="0 0 0" type="hinge" axis="1 0 0" armature="0.00065" damping="0.01" limited="true" range="-120 120" ref="0"/>
+                <joint name="m2_rl" pos="0 0 0" type="hinge" axis="1 0 0" armature="0.00065" damping="0.01" limited="true" range="-180 180" ref="0"/>
                 
                 <body name="visual_m2_rl" pos="0 0 0" euler="0 90 0">
                     <geom name="visual_m2_rl" type="mesh" mesh="m2_reel_rl" mass="0" contype="0" conaffinity="0" rgba=".8 .1 .1 1"/>
