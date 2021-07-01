@@ -111,11 +111,11 @@
                                     <site name="s1_ss" pos="0 0.007 0" size="0.002" rgba=".1 .1 .8 0.5"/>
                                 </body>
 
-                                <body name="rl" pos="0.0175 0.0085 0">
+                                <body name="rl" pos="0.0175 0.0085 0" euler="10 0 0">
                                     <include file="leg_rl_assets/rl_t3_asset_exp.xml"/>
                                 </body>
 
-                                <body name="rr" pos="-0.0175 0.0085 0">
+                                <body name="rr" pos="-0.0175 0.0085 0" euler="10 0 0">
                                     <include file="leg_rr_assets/rr_t3_asset_exp.xml"/>
                                 </body>
 
