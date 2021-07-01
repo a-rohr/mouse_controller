@@ -105,7 +105,7 @@ class Inverse_Leg_Kinematics:
         self.lu_rl = Leg_Unit('rr3',rear_leg_t3_param)
         self.lu_rr = Leg_Unit('rr3',rear_leg_t3_param)
 
-    def run_inverse_leg_kinematics(self,new_target_leg_positions,timer=0.02):
+    def run_inverse_leg_kinematics(self,new_target_leg_positions,timer=0.03):
         # Todo 
         # Replace the timer value with the actual timer
         # Check whether such an implementation actual works
@@ -129,7 +129,7 @@ class Inverse_Leg_Kinematics:
 
         return difference
 
-    def compute_inverse_kinematics(self, difference,timer=0.04):
+    def compute_inverse_kinematics(self, difference,timer=0.001):
         vel = difference
         print("Positional difference of target and goal: {}".format(vel))
         current_q_values = self.internal_q_value_return()

@@ -108,6 +108,6 @@ def motion_node(rate):
 if __name__ == "__main__":
     try:
 
-        motion_node(rate=150)
+        motion_node(rate=100)
     except rospy.ROSInterruptException:
         pass
