@@ -68,7 +68,7 @@ class Mouse_Parameters:
         self.fr_t1_param = {'lr0':0.033, 'rp': 0.008, 'd1': 0.0128, 'l1': 0.0295, 
                             'l2': 0.0145, 'l3': 0.0225, 'l4': 0.0145,'theta3':23*np.pi/180}
         
-        self.rr_t3_param = {'lr0':0.02678, 'rp': 0.008, 'd1': 0.0128, 'l1': 0.0317, 
+        self.rr_t3_param = {'lr0':0.03, 'rp': 0.008, 'd1': 0.0128, 'l1': 0.0317, 
                             'l2': 0.02, 'l3': 0.0305, 'l4': 0.0205,'theta3':73*np.pi/180}
 
         # Setting general mouse parameters
