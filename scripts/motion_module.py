@@ -53,7 +53,7 @@ from visualization_msgs.msg import InteractiveMarkerInit
 
 import os
 
-def mouse_node(rate):
+def motion_node(rate):
     # main starter method
     # print("Starting mouse node")
     dry = 0
@@ -85,9 +85,10 @@ def mouse_node(rate):
 
     while(not rospy.is_shutdown()):
         vel_in = 0.5*rospy.get_param("/vel_ly")
+        turn_rate = rospy.get_param("/vel_rx")
         vel = vel_in * np.ones((4,))
         leg_states, leg_timings = fsm.run_state_machine()
-        target_leg_positions, q_values = leg_controller.run_controller(leg_states, leg_timings, vel)
+        target_leg_positions, q_values = leg_controller.run_controller(leg_states, leg_timings, vel, turn_rate)
         target_leg_positions.astype(dtype=np.float32)
         q_values.astype(dtype=np.float32)
         print(q_values)
@@ -107,6 +108,6 @@ def mouse_node(rate):
 if __name__ == "__main__":
     try:
 
-        mouse_node(rate=200)
+        motion_node(rate=150)
     except rospy.ROSInterruptException:
         pass

@@ -35,6 +35,7 @@ class Leg_Controller:
 
     def run_controller(self, leg_states, leg_timings, leg_velocities, turn_rate = 0):
         alphas = self.compute_turn_alphas(turn_rate)
+        print("Alpha values: {}".format(alphas))
 
         next_leg_positions = self.compute_next_leg_positions(leg_states, leg_timings, leg_velocities, alphas)
 
@@ -47,8 +48,11 @@ class Leg_Controller:
     def compute_turn_alphas(self, turn_rate):
         # In here we compute alpha value adjustments for specified turn rates
         # TO-DO
+        alpha_left = min(1-turn_rate,1)
+        alpha_right = min(1+turn_rate,1)
+        alphas = np.array([alpha_left, alpha_right, alpha_left, alpha_right])
 
-        return np.ones((4,))
+        return alphas
 
     def compute_new_trajectory(self, leg_velocities, turn_rates):
         return
@@ -58,6 +62,11 @@ class Leg_Controller:
         # print("Status change vector: ")
         next_leg_positions = np.zeros((4,2))
         
+        # Remember, the legs are setup as follows
+        # 0: front left
+        # 1: front right
+        # 2: rear left
+        # 3: rear right
         for i in range(4):
             if status_change[i] != 0:
                 self.traj_obj[i].new_trajectory_compute(leg_velocities[i],leg_states[i],alphas[i])
@@ -96,7 +105,7 @@ class Inverse_Leg_Kinematics:
         self.lu_rl = Leg_Unit('rr3',rear_leg_t3_param)
         self.lu_rr = Leg_Unit('rr3',rear_leg_t3_param)
 
-    def run_inverse_leg_kinematics(self,new_target_leg_positions,timer=0.015):
+    def run_inverse_leg_kinematics(self,new_target_leg_positions,timer=0.02):
         # Todo 
         # Replace the timer value with the actual timer
         # Check whether such an implementation actual works

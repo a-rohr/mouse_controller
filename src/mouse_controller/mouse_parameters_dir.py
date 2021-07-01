@@ -23,7 +23,7 @@ class Gait_Parameters:
         # cycle_distr       [/]         float           - stance % vs. swing % of cycle
         # leg_cycle_offset  [/]         float⁽⁴⁾        - gait offset (start of stance within cycle)
         # Legs: 0, 1, 2, 3| FL, FR, RL, RR
-        self.st_trot_parameters = {'cycle_freq': 1.0,
+        self.st_trot_parameters = {'cycle_freq': 0.67,
                                 'cycle_distr': 0.5,
                                 'leg_cycle_offset': np.array([0.5,0,0,0.5])}
         
@@ -42,8 +42,8 @@ class Gait_Parameters:
         # Due to unsymmetric front/rear legs different in neutral heights of stance
         self.st_trot_param_f = {'cycle_freq':           self.st_trot_parameters['cycle_freq'],
                                 'amp_swing':            0.025,
-                                'amp_stance':           0.025,
-                                'max_stride_length':    0.04,
+                                'amp_stance':           0.02,
+                                'max_stride_length':    0.03,
                                 'neutral_stance_pos':   -0.035,
                                 'neutral_stride_pos':   -0.015,
                                 'cycle_distr':          self.st_trot_parameters['cycle_distr'],
@@ -51,10 +51,10 @@ class Gait_Parameters:
 
         self.st_trot_param_r = {'cycle_freq':           self.st_trot_parameters['cycle_freq'],
                                 'amp_swing':            0.025,
-                                'amp_stance':           0.025,
-                                'max_stride_length':    0.04,
+                                'amp_stance':           0.02,
+                                'max_stride_length':    0.03,
                                 'neutral_stance_pos':   -0.042,
-                                'neutral_stride_pos':   0.01,
+                                'neutral_stride_pos':   0.02,
                                 'cycle_distr':          self.st_trot_parameters['cycle_distr'],
                                 'leg_cycle_offset':     self.st_trot_parameters['leg_cycle_offset']}
 

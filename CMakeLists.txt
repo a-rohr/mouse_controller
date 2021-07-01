@@ -165,7 +165,7 @@ include_directories(
 catkin_install_python(PROGRAMS
   scripts/mouse_runner.py
   scripts/mouse_walker.py
-  scripts/leg_controller_ros.py
+  scripts/motion_module.py
   scripts/mouse_simulation.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
