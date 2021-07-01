@@ -41,20 +41,20 @@ class Gait_Parameters:
         
         # Due to unsymmetric front/rear legs different in neutral heights of stance
         self.st_trot_param_f = {'cycle_freq':           self.st_trot_parameters['cycle_freq'],
-                                'amp_swing':            0.025,
-                                'amp_stance':           0.02,
+                                'amp_swing':            0.0075,
+                                'amp_stance':           0.0075,
                                 'max_stride_length':    0.03,
-                                'neutral_stance_pos':   -0.035,
-                                'neutral_stride_pos':   -0.015,
+                                'neutral_stance_pos':   -0.038,
+                                'neutral_stride_pos':   -0.005,
                                 'cycle_distr':          self.st_trot_parameters['cycle_distr'],
                                 'leg_cycle_offset':     self.st_trot_parameters['leg_cycle_offset']}
 
         self.st_trot_param_r = {'cycle_freq':           self.st_trot_parameters['cycle_freq'],
-                                'amp_swing':            0.025,
-                                'amp_stance':           0.02,
+                                'amp_swing':            0.0075,
+                                'amp_stance':           0.0075,
                                 'max_stride_length':    0.03,
                                 'neutral_stance_pos':   -0.042,
-                                'neutral_stride_pos':   0.015,
+                                'neutral_stride_pos':   0.01,
                                 'cycle_distr':          self.st_trot_parameters['cycle_distr'],
                                 'leg_cycle_offset':     self.st_trot_parameters['leg_cycle_offset']}
 

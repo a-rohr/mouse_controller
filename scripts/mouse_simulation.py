@@ -88,6 +88,7 @@ def callback_q_values(data):
     print("Callback hit")
     print(data.data)
     q_values_leg = np.array((data.data))
+    q_spine = rospy.get_param("/vel_rx")
     q_aux = np.array(([0,0,0]))
     q_values = np.concatenate((q_values_leg, q_aux))
     print("Control values sent: {}".format(q_values))
