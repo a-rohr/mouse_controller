@@ -129,7 +129,7 @@ class Inverse_Leg_Kinematics:
 
         return difference
 
-    def compute_inverse_kinematics(self, difference,timer=0.015):
+    def compute_inverse_kinematics(self, difference,timer=0.01):
         vel = difference
         print("Positional difference of target and goal: {}".format(vel))
         current_q_values = self.internal_q_value_return()

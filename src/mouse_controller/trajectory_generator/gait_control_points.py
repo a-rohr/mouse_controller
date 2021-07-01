@@ -49,19 +49,9 @@ class Gait_Control_Parameters:
         distance = np.abs(self.cycle_time * vel * alpha)
         stride = min(distance/4,self.max_stride_length)
 
-        # ADJUST
-        # So that in reverse, we use the correct amplitudes
-        v_stance = stance
-        if vel < 0:
-            if stance == 1:
-                v_stance = 0
-            else:
-                v_stance = 1
         sign_m = np.sign(vel)
-        # if sign_m == -1:
-        #    second_val = 
         # Gotten rid of if-clause statemenets here for control point generation
-        mid_point = np.array([self.neutral_stride_pos,self.neutral_stance_pos + np.abs(sign_m)*self.amp_cycle[v_stance]])
+        mid_point = np.array([self.neutral_stride_pos,self.neutral_stance_pos + sign_m*self.amp_cycle[stance]])
         end_point = np.array([self.neutral_stride_pos + self.state_sign[stance]*stride, self.neutral_stance_pos])
        
         self.previous_point = end_point

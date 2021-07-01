@@ -8,7 +8,7 @@
         <material name="matplane" reflectance="0.3" texture="texplane" texrepeat="2 2" texuniform="true"/>
     </asset>
 
-    <option timestep="0.002" o_solimp="0.9 0.95 0.001 0.1 2" o_solref="0.008 2" cone="elliptic" noslip_iterations="2">
+    <option timestep="0.002" o_solimp="0.9 0.95 0.001 0.1 2" o_solref="0.008 2">
         <flag override="enable"/>
     </option>
 </mujoco>
