@@ -126,7 +126,7 @@ def idle_motion(pos):
 def main():
     # Length of pre-run and then data collection
     idle_motion(np.array([0]*11))
-    rate = 500
+    rate = 200
 
     try: 
         run_simulation(rate)
