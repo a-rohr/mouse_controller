@@ -50,10 +50,10 @@ class Gait_Parameters:
                                 'leg_cycle_offset':     self.st_trot_parameters['leg_cycle_offset']}
 
         self.st_trot_param_r = {'cycle_freq':           self.st_trot_parameters['cycle_freq'],
-                                'amp_swing':            0.025,
+                                'amp_swing':            0.01,
                                 'amp_stance':           0.02,
                                 'max_stride_length':    0.03,
-                                'neutral_stance_pos':   -0.042,
+                                'neutral_stance_pos':   -0.037,
                                 'neutral_stride_pos':   0.02,
                                 'cycle_distr':          self.st_trot_parameters['cycle_distr'],
                                 'leg_cycle_offset':     self.st_trot_parameters['leg_cycle_offset']}
@@ -68,7 +68,7 @@ class Mouse_Parameters:
         self.fr_t1_param = {'lr0':0.033, 'rp': 0.008, 'd1': 0.0128, 'l1': 0.0295, 
                             'l2': 0.0145, 'l3': 0.0225, 'l4': 0.0145,'theta3':23*np.pi/180}
         
-        self.rr_t3_param = {'lr0':0.02678, 'rp': 0.008, 'd1': 0.0128, 'l1': 0.0317, 
+        self.rr_t3_param = {'lr0':0.033, 'rp': 0.008, 'd1': 0.0128, 'l1': 0.0317, 
                             'l2': 0.02, 'l3': 0.0305, 'l4': 0.0205,'theta3':73*np.pi/180}
 
         # Setting general mouse parameters
