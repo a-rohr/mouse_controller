@@ -47,7 +47,7 @@ class Gait_Control_Parameters:
         # print("Stance value: {}".format(stance))
         
         distance = np.abs(self.cycle_time * vel * alpha)
-        stride = min(distance/8,2/3*self.max_stride_length)
+        stride = min(distance/15,3/2*self.max_stride_length)
 
         sign_m = np.sign(vel)
         # Gotten rid of if-clause statemenets here for control point generation
