@@ -50,7 +50,7 @@ class Gait_Parameters:
                                 'leg_cycle_offset':     self.st_trot_parameters['leg_cycle_offset']}
 
         self.st_trot_param_r = {'cycle_freq':           self.st_trot_parameters['cycle_freq'],
-                                'amp_swing':            0.01,
+                                'amp_swing':            0.015,
                                 'amp_stance':           0.005,
                                 'max_stride_length':    0.03,
                                 'neutral_stance_pos':   -0.042,

@@ -63,6 +63,7 @@ def motion_node(rate):
     pub_x = rospy.Publisher('leg_outputs_x', Floats, queue_size=1)
     pub_y = rospy.Publisher('leg_outputs_y', Floats, queue_size=1)
     pub_vel = rospy.Publisher('velocity_joy', Float32, queue_size=1)
+    pub_turn = rospy.Publisher('turnrate_joy', Float32, queue_size=1)
     pub_q_values = rospy.Publisher('q_values', Floats, queue_size=1)
     r = rospy.Rate(rate)
 
@@ -100,6 +101,7 @@ def motion_node(rate):
         pub_x.publish(target_leg_x_f)
         pub_y.publish(target_leg_y_f)
         pub_vel.publish(vel_in)
+        pub_turn.publish(turn_rate)
         pub_q_values.publish(target_q_values)
 
         r.sleep()
