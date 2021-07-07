@@ -23,11 +23,11 @@ class Gait_Parameters:
         # cycle_distr       [/]         float           - stance % vs. swing % of cycle
         # leg_cycle_offset  [/]         float⁽⁴⁾        - gait offset (start of stance within cycle)
         # Legs: 0, 1, 2, 3| FL, FR, RL, RR
-        self.st_trot1_parameters = {'cycle_freq': 0.67,
+        self.st_trot_parameters = {'cycle_freq': 0.67,
                                 'cycle_distr': 0.5,
                                 'leg_cycle_offset': np.array([0.5,0,0,0.5])}
         
-        self.st_trot_parameters = {'cycle_freq': 0.67,
+        self.lat_walk_parameters = {'cycle_freq': 0.67,
                                 'cycle_distr': 0.68,
                                 'leg_cycle_offset': np.array([0.63,0.14,0,0.54])}
         
@@ -35,7 +35,7 @@ class Gait_Parameters:
                                 'cycle_distr': 0.3,
                                 'leg_cycle_offset': np.array([0.65,0.55,0,0.1])}
 
-        self.walk_trot_parameters = {'cycle_freq': 1.0,
+        self.walk_trot_parameters = {'cycle_freq': 0.67,
                                 'cycle_distr': 0.6,
                                 'leg_cycle_offset': np.array([0.5,0,0,0.5])}
         
