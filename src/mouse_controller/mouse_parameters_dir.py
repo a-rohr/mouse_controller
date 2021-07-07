@@ -23,13 +23,13 @@ class Gait_Parameters:
         # cycle_distr       [/]         float           - stance % vs. swing % of cycle
         # leg_cycle_offset  [/]         float⁽⁴⁾        - gait offset (start of stance within cycle)
         # Legs: 0, 1, 2, 3| FL, FR, RL, RR
-        self.st_trot_parameters = {'cycle_freq': 0.67,
+        self.st_trot1_parameters = {'cycle_freq': 0.67,
                                 'cycle_distr': 0.5,
                                 'leg_cycle_offset': np.array([0.5,0,0,0.5])}
         
-        self.walk_lat_parameters = {'cycle_freq': 0.67,
-                                'cycle_distr': 0.67,
-                                'leg_cycle_offset': np.array([0.62,0.1,0,0.52])}
+        self.st_trot_parameters = {'cycle_freq': 0.67,
+                                'cycle_distr': 0.68,
+                                'leg_cycle_offset': np.array([0.63,0.14,0,0.54])}
         
         self.gallop_rot_parameters = {'cycle_freq': 1.0,
                                 'cycle_distr': 0.3,
@@ -43,7 +43,7 @@ class Gait_Parameters:
         self.st_trot_param_f = {'cycle_freq':           self.st_trot_parameters['cycle_freq'],
                                 'amp_swing':            0.01,
                                 'amp_stance':           0.005,
-                                'max_stride_length':    0.03,
+                                'max_stride_length':    0.02,
                                 'neutral_stance_pos':   -0.038,
                                 'neutral_stride_pos':   -0.005,
                                 'cycle_distr':          self.st_trot_parameters['cycle_distr'],
@@ -52,9 +52,9 @@ class Gait_Parameters:
         self.st_trot_param_r = {'cycle_freq':           self.st_trot_parameters['cycle_freq'],
                                 'amp_swing':            0.015,
                                 'amp_stance':           0.005,
-                                'max_stride_length':    0.03,
-                                'neutral_stance_pos':   -0.042,
-                                'neutral_stride_pos':   -0.01,
+                                'max_stride_length':    0.02,
+                                'neutral_stance_pos':   -0.04,
+                                'neutral_stride_pos':   0.01,
                                 'cycle_distr':          self.st_trot_parameters['cycle_distr'],
                                 'leg_cycle_offset':     self.st_trot_parameters['leg_cycle_offset']}
 
@@ -68,7 +68,7 @@ class Mouse_Parameters:
         self.fr_t1_param = {'lr0':0.033, 'rp': 0.008, 'd1': 0.0128, 'l1': 0.0295, 
                             'l2': 0.0145, 'l3': 0.0225, 'l4': 0.0145,'theta3':23*np.pi/180}
         
-        self.rr_t3_param = {'lr0':0.03, 'rp': 0.008, 'd1': 0.0128, 'l1': 0.0317, 
+        self.rr_t3_param = {'lr0':0.032, 'rp': 0.008, 'd1': 0.0128, 'l1': 0.0317, 
                             'l2': 0.02, 'l3': 0.0305, 'l4': 0.0205,'theta3':73*np.pi/180}
 
         # Setting general mouse parameters

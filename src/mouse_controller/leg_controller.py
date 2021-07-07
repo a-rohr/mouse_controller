@@ -51,7 +51,7 @@ class Leg_Controller:
         alpha_left = min(1-turn_rate,1)
         alpha_right = min(1+turn_rate,1)
         alphas = np.array([alpha_left, alpha_right, alpha_left, alpha_right])
-
+        # alphas = np.ones((4,))
         return alphas
 
     def compute_new_trajectory(self, leg_velocities, turn_rates):
@@ -105,7 +105,7 @@ class Inverse_Leg_Kinematics:
         self.lu_rl = Leg_Unit('rr3',rear_leg_t3_param)
         self.lu_rr = Leg_Unit('rr3',rear_leg_t3_param)
 
-    def run_inverse_leg_kinematics(self,new_target_leg_positions,timer=0.5):
+    def run_inverse_leg_kinematics(self,new_target_leg_positions,timer=0.15):
         # Todo 
         # Replace the timer value with the actual timer
         # Check whether such an implementation actual works
