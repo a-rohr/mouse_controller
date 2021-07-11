@@ -74,14 +74,30 @@ class Mouse_Parameters:
         # Setting general mouse parameters
         # [x,y,z] - units [m]
         # ^z -> y (RHS)
-        self.mouse_param = {'fl_leg_attach':    np.array([0.0368,-0.02984,-0.00532]),   # From main body COM
-                            'fr_leg_attach':    np.array([-0.0368,-0.02984,-0.00532]),  # From main body COM
-                            'spine_attach':     np.array([0,0.03166,0.02705])           # From main body COM 
-                            }
+        self.mouse_geometric_param = {'fl_shoulder':  np.array([ 0.0368, -0.0863,  0.0024]),
+                    'fr_shoulder':  np.array([-0.0368, -0.0863,  0.0024]),
+                    'rl_hip':       np.array([ 0.0428,  0.0356,  0.0095]),
+                    'rr_hip':       np.array([-0.0428,  0.0356,  0.0095]),
+                    'com_front':    np.array([ 0.0000, -0.0565,  0.0078]),
+                    'com_rear':     np.array([ 0.0000,  0.0578,  0.0034]),
+                    'spine_start':  np.array([ 0.0000, -0.0248,  0.0348]),
+                    'spine_end':    np.array([ 0.0000,  0.0268,  0.0194]), #Crosscheck with kinematic chain
+                    'mass_front':   0.1537,
+                    'mass_rear':    0.0435,
+                    'legs':         0.0020,
+                    'head':         0.0231,
+                    'spine':        0.0040}
 
-        # Mass parameters for reference - unit [kg]
-        self.mouse_mass_param = {'front_mouse':     0.1538,
-                                'rear_mouse':       0.0435,
-                                'spine':            0.0040,
-                                'head':             0.0231,
-                                'legs':             0.0020,}
+        # Initialize new coordinates relative to the FRONT COM and the REAR COM (for the rear components)
+        # This means that the FRONT COM becomes -> [0.0, 0.0, 0.0]
+        self.mouse_geometric_param['fl_com_shoulder'] = self.mouse_geometric_param['fl_shoulder'] - self.mouse_geometric_param['com_front'] 
+        self.mouse_geometric_param['fr_com_shoulder'] = self.mouse_geometric_param['fr_shoulder'] - self.mouse_geometric_param['com_front'] 
+        self.mouse_geometric_param['rl_com_hip'] = self.mouse_geometric_param['rl_hip'] - self.mouse_geometric_param['com_front'] 
+        self.mouse_geometric_param['rr_com_hip'] = self.mouse_geometric_param['rr_hip'] - self.mouse_geometric_param['com_front'] 
+        self.mouse_geometric_param['com_spine'] = self.mouse_geometric_param['spine_start'] - self.mouse_geometric_param['com_front']
+        self.mouse_geometric_param['com_comr'] = self.mouse_geometric_param['com_rear'] - self.mouse_geometric_param['com_front']
+        self.mouse_geometric_param['com_spine_end_neutral'] = np.array([0.0, 0.0834, 0.0116])
+        self.mouse_geometric_param['se_comr'] = self.mouse_geometric_param['com_comr'] - self.mouse_geometric_param['com_spine_end_neutral']
+        self.mouse_geometric_param['se_rl'] = self.mouse_geometric_param['rl_com_hip'] - self.mouse_geometric_param['com_spine_end_neutral']
+        self.mouse_geometric_param['se_rr'] = self.mouse_geometric_param['rr_com_hip'] - self.mouse_geometric_param['com_spine_end_neutral']
+        self.mouse_geometric_param['se'] = np.array([0.0, 0.0, 0.0])
