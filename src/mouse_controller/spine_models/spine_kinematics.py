@@ -136,6 +136,7 @@ class Spine_Helpers:
 
 
         # Check which side of stability line the COM is on to decide which way to push it
+        # Relevant for the stability model
         if (direction_point >= 0):
             dist = np.abs(distance)
             com_vel = dist*np.array([-1*line_params[0],line_params[1]])
