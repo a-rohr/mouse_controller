@@ -5,6 +5,7 @@
     <include file="leg_fr_assets/fr_t3_stl_assets.xml"/>
     <include file="leg_rl_assets/rl_t3_stl_assets.xml"/>
     <include file="leg_rr_assets/rr_t3_stl_assets.xml"/>
+    <include file="tail_assets/tail_stl_assets.xml"/>
 
     <asset>
         <mesh name="head" file="stl-meshes/head_main.stl" scale="0.001 0.001 0.001"/>
@@ -57,7 +58,7 @@
 
             <!-- Here we define the rear body of the mouse -->
             <body pos="0 0.064 0.026" name="t1">
-                <geom name="visual_t1" type="mesh" mesh="spine_t1" mass="0.002" contype="0" conaffinity="0" rgba="0.95 0.95 0.95 0.4"/>
+                <geom name="visual_t1" type="mesh" mesh="spine_t1" mass="0.002" contype="0" conaffinity="0" rgba="0.95 0.95 0.95 1"/>
                 
                 <site name="s2_ss" pos="0.0065 0 0" size="0.002" rgba=".1 .1 .8 0.5"/>
                 <site name="s3_ss" pos="-0.0065 0 0" size="0.002" rgba=".1 .1 .8 0.5"/>
@@ -66,7 +67,7 @@
                 <site name="s5_ss" pos="-0.0065 0.005 -0.0008" size="0.002" rgba=".1 .1 .8 0.5"/>
                 <body pos="0 0.0084 -0.001" name="t2" euler="-11.4 0 0">
                     <joint name="t2" pos="0 0 0" type="hinge" axis="0 0 1" damping="0.01" stiffness="1.2" armature="0.00065" limited="true" range="-90 90" ref="0"/>
-                    <geom name="visual_t2" type="mesh" mesh="spine_t2" mass="0.002" contype="0" conaffinity="0" rgba="0.95 0.95 0.95 0.4"/>
+                    <geom name="visual_t2" type="mesh" mesh="spine_t2" mass="0.002" contype="0" conaffinity="0" rgba="0.95 0.95 0.95 1"/>
 
                     <site name="s6_ss" pos="0.0065 0.0035 -0.0006" size="0.002" rgba=".1 .1 .8 0.5"/>
                     <site name="s7_ss" pos="-0.0065 0.0035 -0.0006" size="0.002" rgba=".1 .1 .8 0.5"/>
@@ -75,7 +76,7 @@
                     <site name="s9_ss" pos="-0.0065 0.011 -0.0012" size="0.002" rgba=".1 .1 .8 0.5"/>
                     <body pos="0 0.014 -0.00075" name="t3" euler="-6.9 0 0">
                         <joint name="t3" pos="0 0 0" type="hinge" axis="0 0 1" damping="0.01" stiffness="1.2" armature="0.00065" limited="true" range="-90 90" ref="0"/>
-                        <geom name="visual_t3" type="mesh" mesh="spine_t3" mass="0.002" contype="0" conaffinity="0" rgba="0.95 0.95 0.95 0.4"/>
+                        <geom name="visual_t3" type="mesh" mesh="spine_t3" mass="0.002" contype="0" conaffinity="0" rgba="0.95 0.95 0.95 1"/>
         
                         <site name="s10_ss" pos="0.0065 0.0035 -0.0006" size="0.002" rgba=".1 .1 .8 0.5"/>
                         <site name="s11_ss" pos="-0.0065 0.0035 -0.0006" size="0.002" rgba=".1 .1 .8 0.5"/>
@@ -85,7 +86,7 @@
 
                         <body pos="0 0.014 -0.00075" name="t4" euler="-5.4 0 0">
                             <joint name="t4" pos="0 0 0" type="hinge" axis="0 0 1" damping="0.01" stiffness="1.2" armature="0.00065" limited="true" range="-90 90" ref="0"/>
-                            <geom name="visual_t4" type="mesh" mesh="spine_t4" mass="0.002" contype="0" conaffinity="0" rgba="0.95 0.95 0.95 0.4"/>
+                            <geom name="visual_t4" type="mesh" mesh="spine_t4" mass="0.002" contype="0" conaffinity="0" rgba="0.95 0.95 0.95 1"/>
 
                             <site name="s14_ss" pos="0.0065 0.0035 -0.0006" size="0.002" rgba=".1 .1 .8 0.5"/>
                             <site name="s15_ss" pos="-0.0065 0.0035 -0.0006" size="0.002" rgba=".1 .1 .8 0.5"/>
@@ -123,9 +124,10 @@
                                 </body>
 
                                 <body name="visual_mouse_tail" pos="0 0.0217 0.0028" euler="15 0 0">
-                                    <geom name="mouse_tail" type="mesh" mesh="tail" mass="0.020" rgba="0.95 0.95 0.95 1"/>
+                                    <include file="tail_assets/tail.xml"/>
+                                    <!-- geom name="mouse_tail" type="mesh" mesh="tail" mass="0.020" rgba="0.95 0.95 0.95 1"/-->
                                 </body>
-                            </body>
+                            </body>0.186
                         </body>
                     </body>
                 </body>
@@ -153,6 +155,7 @@
     <include file="leg_fr_assets/fr_t3_tendon.xml"/>
     <include file="leg_rl_assets/rl_t3_tendon.xml"/>
     <include file="leg_rr_assets/rr_t3_tendon.xml"/>
+    <include file="tail_assets/tail_tendon.xml"/>
 
     <tendon>
         <spatial name="m1_tendon_ss" limited="true" range="0 0.07405" width="0.0005" rgba=".1 .1 .8 0.5">
@@ -189,6 +192,7 @@
     <include file="leg_fr_assets/fr_sensor_actuator.xml"/>
     <include file="leg_rl_assets/rl_sensor_actuator.xml"/>
     <include file="leg_rr_assets/rr_sensor_actuator.xml"/>
+    <include file="tail_assets/tail_sensor_actuator.xml"/>
 
     <sensor>
         <tendonpos name="sensor_m1_ss" tendon="m1_tendon_ss"/>

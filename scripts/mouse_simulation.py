@@ -89,7 +89,7 @@ def callback_q_values(data):
     print(data.data)
     q_values_leg = np.array((data.data))
     q_spine = rospy.get_param("/vel_rx")
-    q_aux = np.array(([0,0,q_spine]))
+    q_aux = np.array(([-q_spine,0,0,q_spine]))
     q_values = np.concatenate((q_values_leg, q_aux))
     print("Control values sent: {}".format(q_values))
     print(q_values.shape)
@@ -125,7 +125,7 @@ def idle_motion(pos):
 
 def main():
     # Length of pre-run and then data collection
-    idle_motion(np.array([0]*11))
+    idle_motion(np.array([0]*12))
     rate = 200
 
     try: 
