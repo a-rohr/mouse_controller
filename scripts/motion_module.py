@@ -37,7 +37,7 @@ from std_msgs.msg import Empty, _String
 # Import the leg and motionplanner modules
 from mouse_controller.leg_controller import Leg_Controller
 from mouse_controller.state_machine.leg_state_machine import Leg_State_Machine
-from mouse_controller.mouse_parameters_dir import Gait_Parameters
+from mouse_controller.mouse_parameters_dir import Gait_Parameters, Mouse_Parameters
 from time import sleep
 
 
@@ -68,13 +68,14 @@ def motion_node(rate):
     r = rospy.Rate(rate)
 
     gait_parameters2 = Gait_Parameters()
+    mouse_parameters = Mouse_Parameters()
     general_st_parameters2 = gait_parameters2.st_trot_parameters
     front_leg_parameters2 = gait_parameters2.st_trot_param_f
     rear_leg_parameters2 = gait_parameters2.st_trot_param_r
 
     # Initialize the key components of the motion module
     fsm = Leg_State_Machine(general_st_parameters2)
-    leg_controller = Leg_Controller(gait_parameters2)
+    leg_controller = Leg_Controller(gait_parameters2, mouse_parameters)
     fsm.timer.reset_times()
     sleep(0.002)
 
@@ -87,12 +88,18 @@ def motion_node(rate):
     while(not rospy.is_shutdown()):
         vel_in = 0.5*rospy.get_param("/vel_ly")
         turn_rate = rospy.get_param("/vel_rx")
+
         vel = vel_in * np.ones((4,))
-        leg_states, leg_timings = fsm.run_state_machine()
-        target_leg_positions, q_values = leg_controller.run_controller(leg_states, leg_timings, vel, turn_rate)
+
+        # Steps of the full controller to generate values
+        leg_states, leg_timings, norm_time = fsm.run_state_machine()
+        target_leg_positions, q_legs, q_spine = leg_controller.run_controller(leg_states, leg_timings, norm_time, vel, turn_rate)
         target_leg_positions.astype(dtype=np.float32)
+        q_values = np.concatenate((q_legs,np.array(([0,0,0,q_spine]))))
         q_values.astype(dtype=np.float32)
         print(q_values)
+
+        # This step handles the publishing to the ROS backend
         target_leg_x = target_leg_positions[:,0]
         target_leg_y = target_leg_positions[:,1]
         target_leg_x_f.data = target_leg_x.tolist()

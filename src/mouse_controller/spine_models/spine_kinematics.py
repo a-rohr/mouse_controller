@@ -7,7 +7,7 @@ class Spine_Kinematics:
         print("Initializing spine model")
         self.spine_angle = 0.0
         self.geometric_param = geoemtric_param
-
+        self.helpers = Spine_Helpers()
 
     def compute_spine_transform(self, servo_angle, leg_positions):
         # 
@@ -111,6 +111,13 @@ class Spine_Kinematics:
                                 [ np.pi/2, l4, th0_r[9] + th_r[9], 0.0],
                                 [-np.pi/2, 0.0, th0_r[10] + th_r[10], 0.0]])
         return DH_table_spine
+
+    def spine_stride_extension(self, timing,vel, offset=0, scaling=0.4):
+        # THis function helps extend the spine stride during gait.
+        # Timing value: is normalized time value
+        scale = min(np.abs(vel)*5.0, scaling)
+        q_spine = scale*np.cos(2*np.pi*timing+offset)
+        return q_spine
 
 class Spine_Helpers:
     # Special functions to support the velocity direction of the spine

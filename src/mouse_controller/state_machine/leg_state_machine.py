@@ -31,20 +31,17 @@ class Leg_State_Machine:
         self.compute_normalized_time_units()
         self.composite_H(self.norm_time_vector)
         self.compute_normalized_phase_timings()
-        return (self.leg_states, self.leg_phase_timings_norm)
+        return (self.leg_states, self.leg_phase_timings_norm, self.normalized_time)
 
     def compute_normalized_time_units(self):
         normalized_delta_time = self.timer.delta_time / self.state_determinor.cycle_time
-        normalized_time = self.timer.curr_cycle_time / self.state_determinor.cycle_time
-        print("Normalized time: {} || Normalized delta time: {}".format(normalized_time,normalized_delta_time))
-        self.norm_time_vector = normalized_time*np.ones((4,))
+        self.normalized_time = self.timer.curr_cycle_time / self.state_determinor.cycle_time
+        print("Normalized time: {} || Normalized delta time: {}".format(self.normalized_time,normalized_delta_time))
+        self.norm_time_vector = self.normalized_time*np.ones((4,))
         self.norm_delta_time = normalized_delta_time
     
     def compute_normalized_phase_timings(self):
         # Computing the current normalized time for the legs in their current gait phase
-        # CURRENT ISSUE
-        # IN THE FIRST RUN, THE INITIAL TIMING IS WRONG (only for the first phase from startup for off-cycle phases)
-        # FIX BY HAVING A FIRST TIME CHECK, or IGNORING THE VERY FIRST CYCLE (don't send commands)
 
         leg_states_2d = np.array([1-self.leg_states,self.leg_states]).T
         self.leg_phase_timings = leg_states_2d*((self.leg_phase_timings + self.norm_delta_time))

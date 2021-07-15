@@ -29,7 +29,7 @@
         <body name="mouse" pos  ="0 0 0.2">
             <camera name="tail view camera" mode="track" pos="0 0.35 0.15" euler="110 180 0" fovy="60"/>
             <joint name="rail" type="free" />
-            <geom name="mouse_body" mass="0.17" type="box" pos="0 0.04 0" size="0.0115 0.048 0.025" rgba="0.8 0.8 0.8 0"/>
+            <geom name="mouse_body" mass="0.15" type="box" pos="0 0.04 0" size="0.0115 0.048 0.025" rgba="0.8 0.8 0.8 0"/>
 
             <body name="visual_mouse_body" pos="0 0 0" euler="0 0 0">
                 <geom name="spine_mouse" type="mesh" mesh="main_body" mass="0" contype="0" conaffinity="0" rgba="0.95 0.95 0.95 1"/>
@@ -127,19 +127,19 @@
                                     <include file="tail_assets/tail.xml"/>
                                     <!-- geom name="mouse_tail" type="mesh" mesh="tail" mass="0.020" rgba="0.95 0.95 0.95 1"/-->
                                 </body>
-                            </body>0.186
+                            </body>
                         </body>
                     </body>
                 </body>
             </body>
         </body>
 
-        <body name="obstacle">
+        <!--body name="obstacle">
             <geom name="box 1" type="box" size=".1 .05 .005" pos="0 -0.5 0"/>
             <geom name="box 2" type="box" size=".1 .05 .005" pos="0 -1.0 0"/>
             <geom name="box 3" type="box" size=".1 .25 .01" pos="0 -.75 0"/>
 
-        </body>
+        </body-->
 
     </worldbody>
 
