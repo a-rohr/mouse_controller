@@ -95,6 +95,7 @@ def motion_node(rate):
         leg_states, leg_timings, norm_time = fsm.run_state_machine()
         target_leg_positions, q_legs, q_spine = leg_controller.run_controller(leg_states, leg_timings, norm_time, vel, turn_rate)
         target_leg_positions.astype(dtype=np.float32)
+        q_spine = (0.4*turn_rate + (1-np.abs(turn_rate))*q_spine)
         q_values = np.concatenate((q_legs,np.array(([0,0,0,q_spine]))))
         q_values.astype(dtype=np.float32)
         print(q_values)

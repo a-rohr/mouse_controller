@@ -54,7 +54,7 @@ class Leg_Controller:
         alpha_left = min(1-turn_rate,1)
         alpha_right = min(1+turn_rate,1)
         alphas = np.array([alpha_left, alpha_right, alpha_left, alpha_right])
-        # alphas = np.ones((4,))
+        alphas = np.ones((4,))
         return alphas
 
     def compute_new_trajectory(self, leg_velocities, turn_rates):
