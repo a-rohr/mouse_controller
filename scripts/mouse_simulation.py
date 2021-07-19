@@ -109,20 +109,20 @@ def run_simulation(rate):
 
     # Subscribe to the q_values of the leg controller
     rospy.Subscriber('q_values', Floats, callback_q_values, queue_size = 1)
-    rospy.Publisher('sensors_mouse', mouse_sensors, queue_size=1)
+    pub_sensor = rospy.Publisher('sensors_mouse', mouse_sensors, queue_size=1)
 
     while(not rospy.is_shutdown()):
-        print("Sensor data from the MuJoCo model")
-        print(sim.data.sensordata)
+        pub_sensor.publish(gen_sensor_message(sim.data.sensordata))
         sim.step()
         viewer.render()
         r.sleep()
 
-def sensor_message(data):
+def gen_sensor_message(data):
     mouse_sensor = mouse_sensors()
-    mouse_sensor.servo_pos = data[:8]
-    mouse_sensor.contact_sensors = data[8:12]
-    mouse_sensor.imu_sensor = data[12:]
+    mouse_sensor.servo_pos_leg = data[:8]
+    mouse_sensor.servo_pos_aux = data[8:12]
+    mouse_sensor.contact_sensors = data[12:16]
+    mouse_sensor.imu_sensor = data[16:]
     return mouse_sensor
 
 def idle_motion(pos):

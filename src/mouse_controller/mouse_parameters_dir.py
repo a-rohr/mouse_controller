@@ -23,7 +23,7 @@ class Gait_Parameters:
         # cycle_distr       [/]         float           - stance % vs. swing % of cycle
         # leg_cycle_offset  [/]         float⁽⁴⁾        - gait offset (start of stance within cycle)
         # Legs: 0, 1, 2, 3| FL, FR, RL, RR
-        self.st_trot_parameters = {'cycle_freq': 0.67,
+        self.st_trot_parameters = {'cycle_freq': 1.0,
                                 'cycle_distr': 0.5,
                                 'leg_cycle_offset': np.array([0.5,0,0,0.5])}
         
@@ -43,17 +43,17 @@ class Gait_Parameters:
         self.st_trot_param_f = {'cycle_freq':           self.st_trot_parameters['cycle_freq'],
                                 'amp_swing':            0.01,
                                 'amp_stance':           0.005,
-                                'max_stride_length':    0.02,
+                                'max_stride_length':    0.015,
                                 'neutral_stance_pos':   -0.038,
                                 'neutral_stride_pos':   -0.005,
                                 'cycle_distr':          self.st_trot_parameters['cycle_distr'],
                                 'leg_cycle_offset':     self.st_trot_parameters['leg_cycle_offset']}
 
         self.st_trot_param_r = {'cycle_freq':           self.st_trot_parameters['cycle_freq'],
-                                'amp_swing':            0.015,
+                                'amp_swing':            0.01,
                                 'amp_stance':           0.005,
-                                'max_stride_length':    0.02,
-                                'neutral_stance_pos':   -0.04,
+                                'max_stride_length':    0.015,
+                                'neutral_stance_pos':   -0.045,
                                 'neutral_stride_pos':   0.01,
                                 'cycle_distr':          self.st_trot_parameters['cycle_distr'],
                                 'leg_cycle_offset':     self.st_trot_parameters['leg_cycle_offset']}
