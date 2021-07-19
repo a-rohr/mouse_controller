@@ -37,9 +37,11 @@
                     <body name="foot_rl" pos="0 0.0305 0">
                         <joint name="ankle_rl" pos="0 0 0" type="hinge" axis="1 0 0" stiffness="0.1" damping="0.005" armature="0.000065" limited="true" range="-70 70" ref="-17"/>
 
-                        <geom name="ankle_rl" type="capsule" mass="0.001" fromto="0 0 0 0 0 -0.0205" friction="1.4 0.005 0.0001" size="0.0015" rgba=".95 .95 .95 0"/>
+                        <geom name="ankle_rl" type="capsule" mass="0.001" fromto="0 0 0 0 0 -0.0205" size="0.001" rgba=".95 .95 .95 0"/>
                         <geom name="visual_ankle_rl" type="mesh" mesh="leg3_rl" mass="0" contype="0" conaffinity="0" rgba=".8 .1 .1 1" euler="-6 0 0" pos="-0.002 0 0"/>
-                        <geom name="foot_placement_rl" type="sphere" pos="0 0 -0.0205" size="0.003" rgba=".8 .1 .1 1"/>
+                        <!--geom name="foot_placement_rl" type="sphere" pos="0 0 -0.0205" size="0.003" rgba=".8 .1 .1 1"/-->
+                        <geom name="foot_placement_rl2" type="capsule" fromto="-0.003 0 -0.0205 0.003 0 -0.0205" size="0.0025" rgba=".8 .1 .1 1"/> 
+
                         <site name="foot_s_rl" pos="0 0 -0.0205" size="0.004" rgba=".1 .1 .8 0.5"/>
                     </body>
                 </body>
