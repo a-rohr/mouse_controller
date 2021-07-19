@@ -86,14 +86,15 @@ def motion_node(rate):
     target_q_values = Floats()
 
     while(not rospy.is_shutdown()):
-        vel_in = 0.5*rospy.get_param("/vel_ly")
+        vel_in = 0.3*rospy.get_param("/vel_ly")
         turn_rate = rospy.get_param("/vel_rx")
 
         vel = vel_in * np.ones((4,))
 
         # Steps of the full controller to generate values
         leg_states, leg_timings, norm_time = fsm.run_state_machine()
-        target_leg_positions, q_legs, q_spine = leg_controller.run_controller(leg_states, leg_timings, norm_time, vel, turn_rate)
+        spine_mode = False
+        target_leg_positions, q_legs, q_spine = leg_controller.run_controller(leg_states, leg_timings, norm_time, vel, turn_rate, spine_mode)
         target_leg_positions.astype(dtype=np.float32)
         q_spine = (0.4*turn_rate + (1-np.abs(turn_rate))*q_spine)
         q_values = np.concatenate((q_legs,np.array(([0,0,0,q_spine]))))

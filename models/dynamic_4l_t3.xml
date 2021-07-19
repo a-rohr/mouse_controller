@@ -24,13 +24,13 @@
         <light diffuse=".5 .5 .5" pos="0 0 3" dir="0 0 -1"/>    
         <geom type="plane" size="0 0 0.03" material="matplane"/>
         <camera name="body_cam" mode="fixed" pos="0.6 0 0.02" euler="90 90 0"/>
-        <camera name="top camera" mode="fixed" pos="0 0 3" euler="0 0 180"/>
+        <camera name="top camera" mode="fixed" pos="0 -1 3" euler="0 0 180"/>
 
         <body name="mouse" pos  ="0 0 0.2">
             <camera name="tail view camera" mode="track" pos="0 0.35 0.15" euler="110 180 0" fovy="60"/>
             <joint name="rail" type="free" />
             <geom name="mouse_body" mass="0.15" type="box" pos="0 0.04 0" size="0.0115 0.048 0.025" rgba="0.8 0.8 0.8 0"/>
-
+            <site name="imu" size="0.004" pos="0 0.045 0.01" rgba="0.1 0.1 0.8 1"/>
             <body name="visual_mouse_body" pos="0 0 0" euler="0 0 0">
                 <geom name="spine_mouse" type="mesh" mesh="main_body" mass="0" contype="0" conaffinity="0" rgba="0.95 0.95 0.95 1"/>
             </body>
@@ -134,12 +134,7 @@
             </body>
         </body>
 
-        <!--body name="obstacle">
-            <geom name="box 1" type="box" size=".1 .05 .005" pos="0 -0.5 0"/>
-            <geom name="box 2" type="box" size=".1 .05 .005" pos="0 -1.0 0"/>
-            <geom name="box 3" type="box" size=".1 .25 .01" pos="0 -.75 0"/>
-
-        </body-->
+        <include file="test_environment/straight_line.xml"/>
 
     </worldbody>
 
@@ -195,12 +190,15 @@
     <include file="tail_assets/tail_sensor_actuator.xml"/>
 
     <sensor>
-        <tendonpos name="sensor_m1_ss" tendon="m1_tendon_ss"/>
-        <tendonpos name="sensor_m2_ss" tendon="m2_tendon_ss"/>
+        <jointpos name="neck" joint="neck"/>
+        <jointpos name="head" joint="head"/>
+        <jointpos name="spine" joint="m_ss"/>
         <touch name="fl_t1" site="foot_s_fl"/>
         <touch name="fr_t1" site="foot_s_fr"/>
         <touch name="rl_t1" site="foot_s_rl"/>
         <touch name="rr_t1" site="foot_s_rr"/>
+        <accelerometer name="imu_acc" site="imu"/>
+        <gyro name="imu_gyro" site="imu"/>
     </sensor>
 
     <actuator>

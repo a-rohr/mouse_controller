@@ -35,7 +35,7 @@ class Leg_Controller:
         #Empty for now
         return
 
-    def run_controller(self, leg_states, leg_timings, norm_time, leg_velocities, turn_rate = 0):
+    def run_controller(self, leg_states, leg_timings, norm_time, leg_velocities, turn_rate, spine_mode):
         alphas = self.compute_turn_alphas(turn_rate)
         print("Alpha values: {}".format(alphas))
 
@@ -43,7 +43,10 @@ class Leg_Controller:
 
         # Only for testing purposes
         next_leg_positions
-        q_spine = self.ik_spine.spine_stride_extension(norm_time, leg_velocities[0])
+        if spine_mode:
+            q_spine = self.ik_spine.spine_stride_extension(norm_time, leg_velocities[0])
+        else:
+            q_spine = 0
         leg_q_values = self.ik_legs.run_inverse_leg_kinematics(next_leg_positions)
 
         return (next_leg_positions, leg_q_values, q_spine) 

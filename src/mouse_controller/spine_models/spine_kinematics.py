@@ -115,7 +115,7 @@ class Spine_Kinematics:
     def spine_stride_extension(self, timing,vel, offset=0, scaling=0.4):
         # THis function helps extend the spine stride during gait.
         # Timing value: is normalized time value
-        scale = min(np.abs(vel)*5.0, scaling)
+        scale = min(np.abs(vel)*1.5, scaling)
         q_spine = scale*np.cos(2*np.pi*timing+offset)
         return q_spine
 

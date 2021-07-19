@@ -40,7 +40,7 @@ from std_msgs.msg import Empty, _String
 from rospy.numpy_msg import numpy_msg
 from std_msgs.msg import Float32
 from std_msgs.msg import Float32MultiArray
-from mouse_controller.msg import Floats
+from mouse_controller.msg import Floats, mouse_sensors
 from sensor_msgs.msg import Joy 
 from geometry_msgs.msg import PoseStamped
 from visualization_msgs.msg import InteractiveMarkerInit
@@ -109,11 +109,21 @@ def run_simulation(rate):
 
     # Subscribe to the q_values of the leg controller
     rospy.Subscriber('q_values', Floats, callback_q_values, queue_size = 1)
+    rospy.Publisher('sensors_mouse', mouse_sensors, queue_size=1)
 
     while(not rospy.is_shutdown()):
+        print("Sensor data from the MuJoCo model")
+        print(sim.data.sensordata)
         sim.step()
         viewer.render()
         r.sleep()
+
+def sensor_message(data):
+    mouse_sensor = mouse_sensors()
+    mouse_sensor.servo_pos = data[:8]
+    mouse_sensor.contact_sensors = data[8:12]
+    mouse_sensor.imu_sensor = data[12:]
+    return mouse_sensor
 
 def idle_motion(pos):
     for i in range(dead_time):

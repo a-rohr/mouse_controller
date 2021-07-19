@@ -2,8 +2,8 @@
     <sensor>
         <jointpos name="m1_rl" joint="m1_rl"/>
         <jointpos name="m2_rl" joint="m2_rl"/>
-        <actuatorfrc name="m1_f_rl" actuator="m1_rl"/>
-        <actuatorfrc name="m2_f_rl" actuator="m2_rl"/>
+        <!--actuatorfrc name="m1_f_rl" actuator="m1_rl"/>
+        <actuatorfrc name="m2_f_rl" actuator="m2_rl"/-->
     </sensor>
 
     <actuator>

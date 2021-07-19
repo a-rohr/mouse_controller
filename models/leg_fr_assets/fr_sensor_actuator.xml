@@ -3,8 +3,8 @@
         <!-- tendonpos name="tendon_length" tendon="m2_tendon"/-->
         <jointpos name="m1_fr" joint="m1_fr"/>
         <jointpos name="m2_fr" joint="m2_fr"/>
-        <actuatorfrc name="m1_F_fr" actuator="m1_fr"/>
-        <actuatorfrc name="m2_F_fr" actuator="m2_fr"/>
+        <!-- actuatorfrc name="m1_F_fr" actuator="m1_fr"/>
+        <actuatorfrc name="m2_F_fr" actuator="m2_fr"/-->
     </sensor>
 
     <actuator>
