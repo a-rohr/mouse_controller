@@ -55,6 +55,7 @@ add_message_files(
   FILES
   Floats.msg
   mouse_sensors.msg
+  desired_cmd.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -168,6 +169,7 @@ catkin_install_python(PROGRAMS
   scripts/mouse_walker.py
   scripts/motion_module.py
   scripts/mouse_simulation.py
+  scripts/high_level_controller.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
