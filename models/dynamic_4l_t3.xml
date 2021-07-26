@@ -183,6 +183,13 @@
     </tendon>
 
     <!-- The sensor and actuator models for each leg -->
+    <!-- OVERALL SENSOR ARRAY:
+            0-7: Servo angle values
+            8-11: tail, neck, head, spine servo angles
+            12-15: foot touch sensors
+            16-18: pos sensor of IMU
+            19-22: quat of IMU
+            23-25: linear velocity of IMU-->
     <include file="leg_fl_assets/fl_sensor_actuator.xml"/>
     <include file="leg_fr_assets/fr_sensor_actuator.xml"/>
     <include file="leg_rl_assets/rl_sensor_actuator.xml"/>
