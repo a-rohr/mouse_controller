@@ -197,9 +197,9 @@
         <touch name="fr_t1" site="foot_s_fr"/>
         <touch name="rl_t1" site="foot_s_rl"/>
         <touch name="rr_t1" site="foot_s_rr"/>
-        <framepos name="com_pos" objtype="site" name="imu"/>
-        <framequat name="com_quat" objtype="site" name="imi"/>
-        <framelinvel name="com_vel" objtype="site" name="imu"/>
+        <framepos name="com_pos" objtype="site" objname="imu"/>
+        <framequat name="com_quat" objtype="site" objname="imu"/>
+        <framelinvel name="com_vel" objtype="site" objname="imu"/>
         <!--accelerometer name="imu_acc" site="imu"/>
         <gyro name="imu_gyro" site="imu"/-->
     </sensor>
