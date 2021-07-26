@@ -35,7 +35,12 @@ from mouse_controller.msg import Floats, desired_cmd, mouse_sensors
 class High_Level_Control:
 
     def __init__(self):
-        self.sensors_imu = [0.0]*6
+        self.sensors_imu = [0.0]*10
+        self.prev_error_vel = 0.0
+        self.prev_error_ang = 0.0
+        self.prev_x_pos = 0.0
+        self.prev_x_pos_e = 0.0
+        self.c_gains = np.array([8.0,2.0,0.0])
         self.main()
 
     def callback_mouse_sensors(self, data):
@@ -45,7 +50,8 @@ class High_Level_Control:
         # Servo of aux: data.servo_pos_aux
         # contact sensors: data.contact_sensors
         # imu (not relevant but for reference): data.imu
-        self.sensors_imu = data.imu
+        # print("High level controller received mouse sensor data")
+        self.sensors_imu = data.imu_sensor
 
     def main_hl(self,rate):
         # main starter method
@@ -61,7 +67,7 @@ class High_Level_Control:
         while(not rospy.is_shutdown()):
             vel_in = 0.3*rospy.get_param("/vel_ly")
             turn_rate = rospy.get_param("/vel_rx")
-            vel_d, tr_d = self.high_level_control(vel_in, turn_rate, mode=False)
+            vel_d, tr_d = self.high_level_control(vel_in, turn_rate, mode=True)
             self.gen_control_message(vel_d, tr_d)
             r.sleep()
 
@@ -69,7 +75,15 @@ class High_Level_Control:
         # High level control function
         # If "mode" = false, then just pass the values directly
         if mode:
-            return (0.0, 0.0)
+            x_pos_d = self.prev_x_pos + vel_in*np.sin(turn_rate)/100
+            x_pos_s = self.sensors_imu[0]
+            x_pos_e = x_pos_d - x_pos_s
+            kd_error = (x_pos_e - self.prev_error_ang)/100
+            ki_error = x_pos_e + self.prev_error_ang
+            self.prev_error_ang = x_pos_e
+            turn_rate_q = (self.c_gains[0]*x_pos_e + self.c_gains[1] * kd_error + self.c_gains[2] * ki_error)
+            turn_rate_d = turn_rate + (1-turn_rate)*turn_rate_q
+            return (vel_in, turn_rate_d)
         else:
             return (vel_in, turn_rate)
 
