@@ -40,7 +40,7 @@ class High_Level_Control:
         self.prev_error_ang = 0.0
         self.prev_x_pos = 0.0
         self.prev_x_pos_e = 0.0
-        self.c_gains = np.array([10.0,0.0,0.0])
+        self.c_gains = np.array([15.0,5.0,0.0])
         self.main()
 
     def callback_mouse_sensors(self, data):
@@ -67,8 +67,9 @@ class High_Level_Control:
         while(not rospy.is_shutdown()):
             vel_in = 0.3*rospy.get_param("/vel_ly")
             turn_rate = rospy.get_param("/vel_rx")
+            buttons = [rospy.get_param("x_trigger"),rospy.get_param("o_trigger"),rospy.get_param("t_trigger"),rospy.get_param("s_trigger")]
             vel_d, tr_d = self.high_level_control(vel_in, turn_rate, mode=True)
-            self.gen_control_message(vel_d, tr_d)
+            self.gen_control_message(vel_d, tr_d, buttons)
             r.sleep()
 
     def high_level_control(self, vel_in: float, turn_rate: float, mode: bool):
@@ -78,7 +79,7 @@ class High_Level_Control:
             x_pos_d = self.prev_x_pos + vel_in*np.sin(turn_rate)/100
             x_pos_s = self.sensors_imu[0]
             x_pos_e = x_pos_d - x_pos_s
-            kd_error = (x_pos_e - self.prev_error_ang)/100
+            kd_error = x_pos_e - self.prev_error_ang
             ki_error = x_pos_e + self.prev_error_ang
             self.prev_error_ang = x_pos_e
             turn_rate_q = (self.c_gains[0]*x_pos_e + self.c_gains[1] * kd_error + self.c_gains[2] * ki_error)
@@ -87,11 +88,12 @@ class High_Level_Control:
         else:
             return (vel_in, turn_rate)
 
-    def gen_control_message(self,vel_d: float, tr_d: float):
+    def gen_control_message(self,vel_d: float, tr_d: float, buttons: list):
         # Generate the necessary ROS custom message
         desired_cmds = desired_cmd()
         desired_cmds.vel = vel_d
         desired_cmds.turn_rate = tr_d
+        desired_cmds.buttons = buttons
         self.pub_control.publish(desired_cmds)
     
     def main(self):

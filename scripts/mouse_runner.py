@@ -36,6 +36,10 @@ def callback_vel(data):
     rospy.set_param("/vel_ry",data.axes[4])
     rospy.set_param("/vel_dx",data.axes[6])
     rospy.set_param("/vel_dy",data.axes[7])
+    rospy.set_param("/x_trigger",data.buttons[0])
+    rospy.set_param("/o_trigger",data.buttons[1])
+    rospy.set_param("/t_trigger",data.buttons[2])
+    rospy.set_param("/s_trigger",data.buttons[3])
 
 
 

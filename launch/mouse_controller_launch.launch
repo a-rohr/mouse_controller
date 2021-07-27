@@ -16,6 +16,10 @@
     <param name="vel_ry" type="double" value="0.0" />
     <param name="vel_dx" type="double" value="0.0" />
     <param name="vel_dy" type="double" value="0.0" />
+    <param name="x_trigger" type="int" value="0" />
+    <param name="o_trigger" type="int" value="0" />
+    <param name="t_trigger" type="int" value="0" />
+    <param name="s_trigger" type="int" value="0" />
 
     <!-- Start the playstation 4 joystick listener -->
     <node name="mouse_runner" pkg="mouse_controller" type="mouse_runner.py" />

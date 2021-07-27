@@ -64,8 +64,9 @@ class Motion_Module:
         # 0: purely turning motion, nothing else
         # 1: turning motion + spine modulation
         # 2: turning motion + balance mode (balance mode for 2 and 3 leg contact)
-        self.spine_mode = 2
+        self.spine_mode = 0
         self.offset_mode = False
+        self.balance_mode = False
         self.fsm = Leg_State_Machine(self.general_st_parameters2)
         self.leg_controller = Leg_Controller(self.gait_parameters2, self.mouse_parameters)
         self.vel_in = 0.0
@@ -73,12 +74,17 @@ class Motion_Module:
         self.sensors_leg_servo = [0.0]*8
         self.sensors_aux_servo = [0.0]*4
         self.sensors_contact = [0.0]*4
+        self.buttons = [0]*4
+        self.prev_buttons = [0]*4
+        self.leg_n = 0
 
     def callback_desired_cmd(self, data):
         # Callback of subscriber to high level desired cmd message
         # Contains two points: vel: float32 || turn_rate: float32
         self.vel_in = data.vel
         self.turn_rate = data.turn_rate
+        self.prev_buttons = self.buttons
+        self.buttons = data.buttons
 
     def callback_mouse_sensors(self, data):
         # In here we can set the measured values relevant for our controller
@@ -112,30 +118,67 @@ class Motion_Module:
         while(not rospy.is_shutdown()):
             # self.vel_in = 0.3*rospy.get_param("/vel_ly")
             # self.turn_rate = rospy.get_param("/vel_rx")
-
+            self.check_button_sets()
             vel = self.vel_in * np.ones((4,))
             leg_states, leg_timings, norm_time = self.fsm.run_state_machine()
-            if False:
+            if not self.balance_mode:
                 # Steps of the full controller to generate values
                 target_leg_positions, q_legs, q_spine = self.leg_controller.run_controller(leg_states, leg_timings, norm_time, vel, self.turn_rate, self.spine_mode, self.offset_mode)
             else:
-                target_leg_positions, q_legs, q_spine = self.special_leg_balance_tester(leg_timings, norm_time, vel, self.turn_rate, self.spine_mode, self.offset_mode)
+                target_leg_positions, q_legs, q_spine = self.leg_balance_tester(leg_timings, norm_time, vel, self.turn_rate, self.spine_mode, self.offset_mode)
             self.gen_messages(target_leg_positions, q_legs, q_spine)
             r.sleep()
-    
-    def special_leg_balance_tester(self, leg_timings, norm_time, vel, turn_rate, spine_mode, offset_mode):
-        # Mode to test the balance ability of the spine balance mode
 
-        leg_states = np.array([1,1,1,0])
+    def check_button_sets(self):
+        if self.prev_buttons[0] != self.buttons[0] and self.prev_buttons[0] == 0:
+            self.leg_n = (self.leg_n+1)%4
+        if self.prev_buttons[1] != self.buttons[1] and self.prev_buttons[1] == 0:
+            if self.offset_mode:
+                self.offset_mode = False
+            else:
+                self.offset_mode = True
+        if self.prev_buttons[2] != self.buttons[2] and self.prev_buttons[2] == 0:
+            self.spine_mode = (self.spine_mode+1)%3
+        if self.prev_buttons[3] != self.buttons[3] and self.prev_buttons[3] == 0:
+            if self.offset_mode:
+                self.balance_mode = False
+            else:
+                self.balance_mode = True
+    
+    def leg_balance_tester(self, leg_timings, norm_time, vel, turn_rate, spine_mode, offset_mode):
+        # Mode to test the balance ability of the spine balance mode
+        
+        leg_states = np.array([1,1,1,1])
+        leg_states[self.leg_n] = 0
         turn_rate = 0
         tl, ql, q_spine = self.leg_controller.run_controller(leg_states, leg_timings, norm_time, vel, turn_rate, spine_mode, offset_mode)
         q1_c = -0.15 + 3*self.vel_in
         q2_c = -0.66 + self.turn_rate
         q_legs = np.array([0.42,0.6,0.42,0.6,-0.15,-0.66,q1_c,q2_c])
+        q_legs = self.balance_mode_gen_q_leg(ql,leg_states)
         target_leg_positions = np.ones((4,2))
-        # q_spine = 0.0
+        q_spine = 0.0
         return (target_leg_positions, q_legs, q_spine)
 
+    def balance_mode_gen_q_leg(self, ql, leg_states):
+        ad_val = np.abs(leg_states - np.ones((4,)))
+        ad_val = np.reshape(ad_val,(4,1))
+        front_neutral = np.array([0.42,0.6])
+        rear_neutral = np.array([-0.15,-0.66])
+
+        static_vals = np.array([front_neutral,
+                                front_neutral,
+                                rear_neutral,
+                                rear_neutral])
+
+        static_vals = np.reshape(ql, (4,2))
+        
+        inputs = np.array([3*self.vel_in, self.turn_rate])
+        inputs = np.reshape(inputs,(1,2))
+
+        static_vals = static_vals + np.dot(ad_val,inputs)
+        q_legs = np.reshape(static_vals,(8,))
+        return q_legs
     
 
     def gen_messages(self, target_leg_positions, q_legs, q_spine):
