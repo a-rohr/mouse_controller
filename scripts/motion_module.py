@@ -60,7 +60,12 @@ class Motion_Module:
 
     def init_controllers(self):
         # Initialize the key components of the motion module
-        self.spine_mode = False
+        # Spine modes:
+        # 0: purely turning motion, nothing else
+        # 1: turning motion + spine modulation
+        # 2: turning motion + balance mode (balance mode for 2 and 3 leg contact)
+        self.spine_mode = 2
+        self.offset_mode = False
         self.fsm = Leg_State_Machine(self.general_st_parameters2)
         self.leg_controller = Leg_Controller(self.gait_parameters2, self.mouse_parameters)
         self.vel_in = 0.0
@@ -109,17 +114,32 @@ class Motion_Module:
             # self.turn_rate = rospy.get_param("/vel_rx")
 
             vel = self.vel_in * np.ones((4,))
-
-            # Steps of the full controller to generate values
             leg_states, leg_timings, norm_time = self.fsm.run_state_machine()
-            target_leg_positions, q_legs, q_spine = self.leg_controller.run_controller(leg_states, leg_timings, norm_time, vel, self.turn_rate, self.spine_mode)
+            if False:
+                # Steps of the full controller to generate values
+                target_leg_positions, q_legs, q_spine = self.leg_controller.run_controller(leg_states, leg_timings, norm_time, vel, self.turn_rate, self.spine_mode, self.offset_mode)
+            else:
+                target_leg_positions, q_legs, q_spine = self.special_leg_balance_tester(leg_timings, norm_time, vel, self.turn_rate, self.spine_mode, self.offset_mode)
             self.gen_messages(target_leg_positions, q_legs, q_spine)
-
             r.sleep()
+    
+    def special_leg_balance_tester(self, leg_timings, norm_time, vel, turn_rate, spine_mode, offset_mode):
+        # Mode to test the balance ability of the spine balance mode
+
+        leg_states = np.array([1,1,1,0])
+        turn_rate = 0
+        tl, ql, q_spine = self.leg_controller.run_controller(leg_states, leg_timings, norm_time, vel, turn_rate, spine_mode, offset_mode)
+        q1_c = -0.15 + 3*self.vel_in
+        q2_c = -0.66 + self.turn_rate
+        q_legs = np.array([0.42,0.6,0.42,0.6,-0.15,-0.66,q1_c,q2_c])
+        target_leg_positions = np.ones((4,2))
+        # q_spine = 0.0
+        return (target_leg_positions, q_legs, q_spine)
+
+    
 
     def gen_messages(self, target_leg_positions, q_legs, q_spine):
         target_leg_positions.astype(dtype=np.float32)
-        q_spine = (0.4*self.turn_rate + (1-np.abs(self.turn_rate))*q_spine)
         q_values = np.concatenate((q_legs,np.array(([0,0,0,q_spine]))))
         q_values.astype(dtype=np.float32)
         # print(q_values)

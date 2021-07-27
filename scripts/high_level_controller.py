@@ -40,7 +40,7 @@ class High_Level_Control:
         self.prev_error_ang = 0.0
         self.prev_x_pos = 0.0
         self.prev_x_pos_e = 0.0
-        self.c_gains = np.array([8.0,2.0,0.0])
+        self.c_gains = np.array([10.0,0.0,0.0])
         self.main()
 
     def callback_mouse_sensors(self, data):
@@ -82,7 +82,7 @@ class High_Level_Control:
             ki_error = x_pos_e + self.prev_error_ang
             self.prev_error_ang = x_pos_e
             turn_rate_q = (self.c_gains[0]*x_pos_e + self.c_gains[1] * kd_error + self.c_gains[2] * ki_error)
-            turn_rate_d = turn_rate + (1-turn_rate)*turn_rate_q
+            turn_rate_d = turn_rate + (1-abs(turn_rate))*turn_rate_q
             return (vel_in, turn_rate_d)
         else:
             return (vel_in, turn_rate)

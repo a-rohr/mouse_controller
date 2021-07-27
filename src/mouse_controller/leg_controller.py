@@ -6,13 +6,15 @@ from mouse_controller.trajectory_generator.trajectory_generator import Leg_Traje
 
 from mouse_controller.leg_unit_class import Leg_Unit
 from mouse_controller.mouse_parameters_dir import Gait_Parameters, Mouse_Parameters
+from mouse_controller.spine_controller import Spine_Controller
 
 class Leg_Controller:
 
     def __init__(self, gait_parameters, mouse_parameters):
         self.gait_parameters = gait_parameters
+        self.geometric_param = mouse_parameters.mouse_geometric_param
         self.ik_legs = Inverse_Leg_Kinematics()
-        self.ik_spine = Spine_Kinematics(mouse_parameters)
+        self.spine_controller = Spine_Controller(self.geometric_param)
         self.setup_trajectory_generators()
         self.previous_leg_states = -1*np.ones((4,),dtype = int)
         print("Initialized leg controller")
@@ -35,18 +37,22 @@ class Leg_Controller:
         #Empty for now
         return
 
-    def run_controller(self, leg_states, leg_timings, norm_time, leg_velocities, turn_rate, spine_mode):
+    def run_controller(self, leg_states, leg_timings, norm_time, leg_velocities, turn_rate, spine_mode, offset_mode):
         alphas = self.compute_turn_alphas(turn_rate)
         print("Alpha values: {}".format(alphas))
 
         next_leg_positions = self.compute_next_leg_positions(leg_states, leg_timings, leg_velocities, alphas)
 
         # Only for testing purposes
-        next_leg_positions
-        if spine_mode:
-            q_spine = self.ik_spine.spine_stride_extension(norm_time, leg_velocities[0])
+        current_leg_positions = self.ik_legs.get_current_leg_positions()
+        if True:
+            q_spine, leg_offsets = self.spine_controller.run_controller(turn_rate, current_leg_positions,leg_states, norm_time,leg_velocities[0], spine_mode, offset_mode)
+
+            next_leg_positions[2,1] = next_leg_positions[2,1] + leg_offsets[0]
+            next_leg_positions[3,1] = next_leg_positions[3,1] + leg_offsets[1]
         else:
-            q_spine = 0
+            q_spine = 0.0
+        
         leg_q_values = self.ik_legs.run_inverse_leg_kinematics(next_leg_positions)
 
         return (next_leg_positions, leg_q_values, q_spine) 
@@ -125,10 +131,7 @@ class Inverse_Leg_Kinematics:
     def compute_pos_difference(self, new_target_leg_positions):
         # Note that the current_leg_position() returns a (3,) vector of (x,y,z)
         # We only care about (y,z) so need to slice the vector/matrix
-        current_leg_positions = np.array([self.lu_fl.current_leg_position(),
-                                                self.lu_fr.current_leg_position(),
-                                                self.lu_rl.current_leg_position(),
-                                                self.lu_rr.current_leg_position()])
+        current_leg_positions = self.get_current_leg_positions()
         print("Current leg positions: {}".format(current_leg_positions))
         print("Target leg positions: {}",format(new_target_leg_positions))
         difference = new_target_leg_positions - current_leg_positions[:,1:]
@@ -160,3 +163,10 @@ class Inverse_Leg_Kinematics:
                                     self.lu_rr.current_leg_servos()])
         
         return current_q_values
+
+    def get_current_leg_positions(self):
+        current_leg_pos = np.array([self.lu_fl.current_leg_position(),
+                                    self.lu_fr.current_leg_position(),
+                                    self.lu_rl.current_leg_position(),
+                                    self.lu_rr.current_leg_position()])
+        return current_leg_pos
