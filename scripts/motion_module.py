@@ -157,7 +157,7 @@ class Motion_Module:
         q_legs = np.array([0.42,0.6,0.42,0.6,-0.15,-0.66,q1_c,q2_c])
         q_legs = self.balance_mode_gen_q_leg(ql,leg_states)
         target_leg_positions = np.ones((4,2))
-        q_spine = 0.0
+        # q_spine = 0.0
         return (target_leg_positions, q_legs, q_spine)
 
     def balance_mode_gen_q_leg(self, ql, leg_states):
@@ -171,7 +171,7 @@ class Motion_Module:
                                 rear_neutral,
                                 rear_neutral])
 
-        static_vals = np.reshape(ql, (4,2))
+        # static_vals = np.reshape(ql, (4,2))
         
         inputs = np.array([3*self.vel_in, self.turn_rate])
         inputs = np.reshape(inputs,(1,2))

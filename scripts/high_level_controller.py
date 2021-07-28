@@ -40,7 +40,7 @@ class High_Level_Control:
         self.prev_error_ang = 0.0
         self.prev_x_pos = 0.0
         self.prev_x_pos_e = 0.0
-        self.c_gains = np.array([15.0,5.0,0.0])
+        self.c_gains = np.array([15.0,40.0,0.0])
         self.main()
 
     def callback_mouse_sensors(self, data):

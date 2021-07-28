@@ -64,7 +64,7 @@ class Mouse_SIM:
 
         # Number of test runs to get the kinematics
         self.test_runs = 100000
-        self.dead_time = 2000
+        self.dead_time = 500
 
 
         # Allowed range of the motors
