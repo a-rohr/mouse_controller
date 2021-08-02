@@ -117,7 +117,7 @@ class Inverse_Leg_Kinematics:
         self.lu_rl = Leg_Unit('rr3',rear_leg_t3_param)
         self.lu_rr = Leg_Unit('rr3',rear_leg_t3_param)
 
-    def run_inverse_leg_kinematics(self,new_target_leg_positions,timer=0.3):
+    def run_inverse_leg_kinematics(self,new_target_leg_positions,timer=0.11):
         # Todo 
         # Replace the timer value with the actual timer
         # Check whether such an implementation actual works

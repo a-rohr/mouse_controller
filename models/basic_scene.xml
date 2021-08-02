@@ -9,7 +9,11 @@
     </asset>
 
     <option timestep="0.002" o_solimp="0.9 0.95 0.001 0.1 2" o_solref="0.008 2" cone="elliptic" 
-        impratio="1.5" noslip_iterations="0" noslip_tolerance="1e-8">
+        impratio="3.0" noslip_iterations="5" noslip_tolerance="1e-8">
         <flag override="enable"/>
     </option>
+
+    <default>
+        <geom type="box" rgba="0 0.4 0.74 1.0"/>
+    </default>
 </mujoco>

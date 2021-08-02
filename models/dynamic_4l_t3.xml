@@ -21,8 +21,8 @@
     </asset>
 
     <worldbody>
-        <light diffuse=".5 .5 .5" pos="0 0 3" dir="0 0 -1"/>    
-        <geom type="plane" size="0 0 0.03" material="matplane"/>
+        <light diffuse=".5 .5 .5" pos="0 -1.0 3" dir="0 0 -1"/>    
+        <geom type="plane" size="0 0 0.03" material="matplane" rgba="1 1 1 1"/>
         <camera name="body_cam" mode="fixed" pos="0.6 0 0.02" euler="90 90 0"/>
         <camera name="top camera" mode="fixed" pos="0 -1 3" euler="0 0 180"/>
 
@@ -134,7 +134,7 @@
             </body>
         </body>
 
-        <include file="test_environment/straight_line.xml"/>
+        <include file="test_environment/maze_setup.xml"/>
 
     </worldbody>
 

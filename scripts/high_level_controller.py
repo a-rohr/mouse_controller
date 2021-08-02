@@ -40,7 +40,7 @@ class High_Level_Control:
         self.prev_error_ang = 0.0
         self.prev_x_pos = 0.0
         self.prev_x_pos_e = 0.0
-        self.c_gains = np.array([15.0,40.0,0.0])
+        self.c_gains = np.array([25.0,200.0,0.0])
         self.main()
 
     def callback_mouse_sensors(self, data):
@@ -63,12 +63,14 @@ class High_Level_Control:
         rospy.Subscriber("sensors_mouse", mouse_sensors, self.callback_mouse_sensors, queue_size=1)
         self.pub_control = rospy.Publisher('desired_cmd', desired_cmd, queue_size=1)
         r = rospy.Rate(rate)
-
+        # Only use SLEEP in tests with fixed velocity
+        sleep(6)
         while(not rospy.is_shutdown()):
             vel_in = 0.3*rospy.get_param("/vel_ly")
+            # vel_in = 0.3
             turn_rate = rospy.get_param("/vel_rx")
             buttons = [rospy.get_param("x_trigger"),rospy.get_param("o_trigger"),rospy.get_param("t_trigger"),rospy.get_param("s_trigger")]
-            vel_d, tr_d = self.high_level_control(vel_in, turn_rate, mode=True)
+            vel_d, tr_d = self.high_level_control(vel_in, turn_rate, mode=False)
             self.gen_control_message(vel_d, tr_d, buttons)
             r.sleep()
 
