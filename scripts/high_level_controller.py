@@ -39,8 +39,9 @@ class High_Level_Control:
         self.prev_error_vel = 0.0
         self.prev_error_ang = 0.0
         self.prev_x_pos = 0.0
+        self.x_pos_d = 0.0
         self.prev_x_pos_e = 0.0
-        self.c_gains = np.array([25.0,200.0,0.0])
+        self.c_gains = np.array([30.0,300.0,0.0])
         self.main()
 
     def callback_mouse_sensors(self, data):
@@ -67,10 +68,10 @@ class High_Level_Control:
         sleep(6)
         while(not rospy.is_shutdown()):
             vel_in = 0.3*rospy.get_param("/vel_ly")
-            # vel_in = 0.3
+            vel_in = 0.3
             turn_rate = rospy.get_param("/vel_rx")
             buttons = [rospy.get_param("x_trigger"),rospy.get_param("o_trigger"),rospy.get_param("t_trigger"),rospy.get_param("s_trigger")]
-            vel_d, tr_d = self.high_level_control(vel_in, turn_rate, mode=False)
+            vel_d, tr_d = self.high_level_control(vel_in, turn_rate, mode=True)
             self.gen_control_message(vel_d, tr_d, buttons)
             r.sleep()
 
@@ -78,13 +79,20 @@ class High_Level_Control:
         # High level control function
         # If "mode" = false, then just pass the values directly
         if mode:
+            # This controller handles straightline tests
             x_pos_d = self.prev_x_pos + vel_in*np.sin(turn_rate)/100
             x_pos_s = self.sensors_imu[0]
+            
+            # This controller handles running arc tests
+            x_pos_s = np.sqrt((2.0+self.sensors_imu[0])**2 + self.sensors_imu[1]**2)
+            x_pos_d = 2.0 # here use different curve ratings
+
             x_pos_e = x_pos_d - x_pos_s
             kd_error = x_pos_e - self.prev_error_ang
             ki_error = x_pos_e + self.prev_error_ang
             self.prev_error_ang = x_pos_e
-            turn_rate_q = (self.c_gains[0]*x_pos_e + self.c_gains[1] * kd_error + self.c_gains[2] * ki_error)
+            # self.prev_x_pos = x_pos_d
+            turn_rate_q = max(-1,min(1,(self.c_gains[0]*x_pos_e + self.c_gains[1] * kd_error + self.c_gains[2] * ki_error)))
             turn_rate_d = turn_rate + (1-abs(turn_rate))*turn_rate_q
             return (vel_in, turn_rate_d)
         else:

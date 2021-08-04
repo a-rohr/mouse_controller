@@ -126,7 +126,7 @@ class Motion_Module:
                 target_leg_positions, q_legs, q_spine = self.leg_controller.run_controller(leg_states, leg_timings, norm_time, vel, self.turn_rate, self.spine_mode, self.offset_mode)
             else:
                 target_leg_positions, q_legs, q_spine = self.leg_balance_tester(leg_timings, norm_time, vel, self.turn_rate, self.spine_mode, self.offset_mode)
-            self.gen_messages(target_leg_positions, q_legs, q_spine)
+            self.gen_messages(target_leg_positions, q_legs, q_spine=0)
             r.sleep()
 
     def check_button_sets(self):

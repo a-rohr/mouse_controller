@@ -3,7 +3,7 @@
 
     
 
-        <!-- 2M TEST
+        <!-- 2M TEST-->
 
         <geom name="pilon1" type="cylinder" pos="-2 -2.5 0" size="0.02 0.2" rgba="0.3 0.3 0.8 1"/>
         <geom name="pilon2" type="cylinder" pos="-2 -1.5 0" size="0.02 0.2" rgba="0.3 0.3 0.8 1"/>
@@ -19,9 +19,9 @@
         <site name="s9" pos="-1.381 -1.902 0" rgba="0.7 0.4 0.1 0.8"/>
         <site name="s10" pos="-1.686 -1.975 0" rgba="0.7 0.4 0.1 0.8"/>
         <site name="s11" pos="-2.0 -2.0 0" rgba="0.7 0.4 0.1 0.8"/>
-        -->
+        
 
-        <!-- 1 Meter Turn
+        <!-- 1 Meter Turn 
         <geom name="pilon1" type="cylinder" pos="-1 -1.25 0" size="0.02 0.2" rgba="0.3 0.3 0.8 1"/>
         <geom name="pilon2" type="cylinder" pos="-1 -0.75 0" size="0.02 0.2" rgba="0.3 0.3 0.8 1"/>
 
@@ -35,10 +35,9 @@
         <site name="s8" pos="-0.546 -0.891 0" rgba="0.7 0.4 0.1 0.8"/>
         <site name="s9" pos="-0.690 -0.951 0" rgba="0.7 0.4 0.1 0.8"/>
         <site name="s10" pos="-0.843 -0.986 0" rgba="0.7 0.4 0.1 0.8"/>
-        <site name="s11" pos="-1.0 -1.0 0" rgba="0.7 0.4 0.1 0.8"/>
-        -->
+        <site name="s11" pos="-1.0 -1.0 0" rgba="0.7 0.4 0.1 0.8"/>-->
 
-        <!-- 0.5 Meter Turn -->
+        <!-- 0.5 Meter Turn
         <geom name="pilon1" type="cylinder" pos="-0.5 -0.75 0" size="0.02 0.2" rgba="0.3 0.3 0.8 1"/>
         <geom name="pilon2" type="cylinder" pos="-0.5 -0.25 0" size="0.02 0.2" rgba="0.3 0.3 0.8 1"/>
 
@@ -52,6 +51,6 @@
         <site name="s8" pos="-0.2728 -0.4454 0" rgba="0.7 0.4 0.1 0.8"/>
         <site name="s9" pos="-0.3451 -0.4753 0" rgba="0.7 0.4 0.1 0.8"/>
         <site name="s10" pos="-0.4214 -0.4938 0" rgba="0.7 0.4 0.1 0.8"/>
-        <site name="s11" pos="-0.5 -0.5 0" rgba="0.7 0.4 0.1 0.8"/>
+        <site name="s11" pos="-0.5 -0.5 0" rgba="0.7 0.4 0.1 0.8"/> -->
     </body>
 </mujoco>

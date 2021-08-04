@@ -38,7 +38,7 @@ class Leg_Controller:
         return
 
     def run_controller(self, leg_states, leg_timings, norm_time, leg_velocities, turn_rate, spine_mode, offset_mode):
-        alphas = self.compute_turn_alphas(turn_rate)
+        alphas = self.compute_turn_alphas_log(turn_rate)
         print("Alpha values: {}".format(alphas))
 
         next_leg_positions = self.compute_next_leg_positions(leg_states, leg_timings, leg_velocities, alphas)
@@ -57,13 +57,28 @@ class Leg_Controller:
 
         return (next_leg_positions, leg_q_values, q_spine) 
 
-    def compute_turn_alphas(self, turn_rate):
+    def compute_turn_alphas_linear(self, turn_rate):
         # In here we compute alpha value adjustments for specified turn rates
         # TO-DO
         alpha_left = min(1-turn_rate,1)
         alpha_right = min(1+turn_rate,1)
         alphas = np.array([alpha_left, alpha_right, alpha_left, alpha_right])
-        alphas = np.ones((4,))
+        # alphas = np.ones((4,))
+        return alphas
+
+    def compute_turn_alphas_log(self,turn_rate):
+        alpha_left = min(1-np.sign(turn_rate)*(1/np.log(2))*np.log(np.abs(turn_rate)+1),1)
+        alpha_right = min(1+np.sign(turn_rate)*(1/np.log(2))*np.log(np.abs(turn_rate)+1),1)
+        alphas = np.array([alpha_left, alpha_right, alpha_left, alpha_right])
+        # alphas = np.ones((4,))
+        return alphas
+
+    def compute_turn_alphas_exponentially(self, turn_rate):
+        """Compute the turn alpha offsets for each leg"""
+        alpha_left = min(1-turn_rate**5,1)
+        alpha_right = min(1+turn_rate**5,1)
+        alphas = np.array([alpha_left, alpha_right, alpha_left, alpha_right])
+        # alphas = np.ones((4,))
         return alphas
 
     def compute_new_trajectory(self, leg_velocities, turn_rates):
