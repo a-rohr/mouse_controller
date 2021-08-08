@@ -6,6 +6,8 @@ from std_msgs.msg import Empty, _String
 from rospy.numpy_msg import numpy_msg
 from mouse_controller.msg import Floats, mouse_sensors
 
+import json
+
 class MQTT_CLIENT_CONTROLLER:
 
     def __init__(self):
@@ -50,11 +52,18 @@ class MQTT_CLIENT_CONTROLLER:
 
         rospy.Subscriber('q_values', Floats, self.callback_q_values, queue_size = 1)
         count = 0
-        while(not rospy.is_shutdown()):
-            self.client.publish(self.topic_name, count,qos=0, retain=False)
+        while(not rospy.is_shutdown()):         
+            # Debugging print for mqtt
+            # self.client.publish(self.topic_name, count)
+            # count += 1
+            # count %= 100
+
+            # Here we publish the actual q_values as a json to mqtt broker
+            # Mqtt publish only accepts floats, ints, strings, bools or none
+            # Therefore need to convert to json
+            json_q_values = json.dumps(self.q_values.tolist())
+            self.client.publish(self.topic_name, json_q_values,qos=0, retain=False)
             self.client.loop_write()
-            count += 1
-            count %= 100
             r.sleep()
 
 
