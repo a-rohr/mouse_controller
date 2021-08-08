@@ -63,14 +63,14 @@ class Leg_Controller:
         alpha_left = min(1-turn_rate,1)
         alpha_right = min(1+turn_rate,1)
         alphas = np.array([alpha_left, alpha_right, alpha_left, alpha_right])
-        # alphas = np.ones((4,))
+        alphas = np.ones((4,))
         return alphas
 
     def compute_turn_alphas_log(self,turn_rate):
         alpha_left = min(1-np.sign(turn_rate)*(1/np.log(2))*np.log(np.abs(turn_rate)+1),1)
         alpha_right = min(1+np.sign(turn_rate)*(1/np.log(2))*np.log(np.abs(turn_rate)+1),1)
         alphas = np.array([alpha_left, alpha_right, alpha_left, alpha_right])
-        # alphas = np.ones((4,))
+        alphas = np.ones((4,))
         return alphas
 
     def compute_turn_alphas_exponentially(self, turn_rate):

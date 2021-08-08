@@ -170,6 +170,7 @@ catkin_install_python(PROGRAMS
   scripts/motion_module.py
   scripts/mouse_simulation.py
   scripts/high_level_controller.py
+  scripts/mqtt_publisher.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

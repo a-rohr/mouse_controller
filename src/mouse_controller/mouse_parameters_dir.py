@@ -27,7 +27,7 @@ class Gait_Parameters:
                                 'cycle_distr': 0.5,
                                 'leg_cycle_offset': np.array([0.5,0,0,0.5])}
         
-        self.st_trot_parameters1 = {'cycle_freq': 0.67,
+        self.st_trot_parameters1 = {'cycle_freq': 0.5,
                                 'cycle_distr': 0.68,
                                 'leg_cycle_offset': np.array([0.63,0.14,0,0.54])}
         
