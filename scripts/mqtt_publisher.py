@@ -14,7 +14,7 @@ class MQTT_CLIENT_CONTROLLER:
         print("Starting MQTT on robot side")
         self.q_values = np.array([0]*12)
         self.setup_mqtt_client()
-        self.mqtt_listener_loop(rate = 100)
+        self.mqtt_listener_loop(rate = 60)
 
     def on_publish(self, client, userdata, mid) -> None:
         """ Callback for when publish commands are sent via mqtt"""
@@ -37,6 +37,7 @@ class MQTT_CLIENT_CONTROLLER:
         self.client.connect(host="64.227.112.163", port=1883, keepalive=60)
 
         self.topic_name = "q_values"
+        self.topic_name_hello = "device_status/"
 
         hello = "Hello World! mqtt publisher here"
         self.client.publish(self.topic_name, hello,qos=0, retain=False)
