@@ -2,7 +2,7 @@ import rospy
 import numpy as np
 import paho.mqtt.client as mqtt
 
-from std_msgs.msg import Empty, _String
+from std_msgs.msg import Empty, _String, Float32MultiArray
 from rospy.numpy_msg import numpy_msg
 from mouse_controller.msg import Floats, mouse_sensors
 
@@ -44,14 +44,15 @@ class MQTT_CLIENT_CONTROLLER:
 
     def callback_q_values(self, data) -> None:
         """ Callback to receive q_values from ROS"""
-        self.q_values = np.array((data.data))
+        angle = [rad*180/np.pi for rad in data.data]
+        self.q_values = np.array((angle), dtype=int)
 
     def mqtt_listener_loop(self, rate: int) -> None:
         """ Main loop of the MQTT client to publish q_values into MQTT"""
         rospy.init_node("mqtt_client_controller", anonymous=True)
         r = rospy.Rate(rate)
 
-        rospy.Subscriber('q_values', Floats, self.callback_q_values, queue_size = 1)
+        rospy.Subscriber('q_values', Float32MultiArray, self.callback_q_values, queue_size = 1)
         count = 0
         while(not rospy.is_shutdown()):         
             # Debugging print for mqtt

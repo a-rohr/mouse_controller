@@ -31,7 +31,7 @@ sys.path.append(script_path)
 from numpy.core.numerictypes import maximum_sctype
 import rospy
 from rospy.numpy_msg import numpy_msg
-from std_msgs.msg import Float32
+from std_msgs.msg import Float32, Float32MultiArray
 from mouse_controller.msg import Floats, desired_cmd, mouse_sensors
 
 class Motion_Module:
@@ -46,10 +46,10 @@ class Motion_Module:
         self.pub_y = rospy.Publisher('leg_outputs_y', Floats, queue_size=1)
         self.pub_vel = rospy.Publisher('velocity_joy', Float32, queue_size=1)
         self.pub_turn = rospy.Publisher('turnrate_joy', Float32, queue_size=1)
-        self.pub_q_values = rospy.Publisher('q_values', Floats, queue_size=1)
+        self.pub_q_values = rospy.Publisher('q_values', Float32MultiArray, queue_size=1)
         self.target_leg_x_f = Floats()
         self.target_leg_y_f = Floats()
-        self.target_q_values = Floats()
+        self.target_q_values = Float32MultiArray()
     
     def init_mouse_variables(self):
         self.gait_parameters2 = Gait_Parameters()

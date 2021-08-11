@@ -28,7 +28,7 @@ sys.path.append(script_path)
 from numpy.core.numerictypes import maximum_sctype
 import rospy
 from rospy.numpy_msg import numpy_msg
-from std_msgs.msg import Float32
+from std_msgs.msg import Float32, Float32MultiArray
 from mouse_controller.msg import Floats, desired_cmd, mouse_sensors
 
 

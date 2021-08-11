@@ -36,7 +36,7 @@ from std_msgs.msg import Empty, _String
 from mouse_controller.leg_unit_class import Leg_Unit
 from mouse_controller.four_legged_body import Quadruped_Walker
 
-from std_msgs.msg import Empty, _String
+from std_msgs.msg import Empty, _String, Float32MultiArray
 from rospy.numpy_msg import numpy_msg
 from mouse_controller.msg import Floats, mouse_sensors
 
@@ -103,7 +103,7 @@ class Mouse_SIM:
         r = rospy.Rate(rate)
 
         # Subscribe to the q_values of the leg controller
-        rospy.Subscriber('q_values', Floats, self.callback_q_values, queue_size = 1)
+        rospy.Subscriber('q_values', Float32MultiArray, self.callback_q_values, queue_size = 1)
         self.pub_sensor = rospy.Publisher('sensors_mouse', mouse_sensors, queue_size=1)
 
         while(not rospy.is_shutdown()):
