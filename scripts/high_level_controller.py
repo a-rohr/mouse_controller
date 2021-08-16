@@ -109,7 +109,7 @@ class High_Level_Control:
     
     def main(self):
         # Length of pre-run and then data collection
-        rate = 100
+        rate = 50
 
         try: 
             self.main_hl(rate)

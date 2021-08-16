@@ -130,6 +130,9 @@ class Motion_Module:
             r.sleep()
 
     def check_button_sets(self):
+        """ Checks the current state of the controller inputs PS4-Controller (Cross, Circle, Triangle, Square)."""
+
+
         if self.prev_buttons[0] != self.buttons[0] and self.prev_buttons[0] == 0:
             self.leg_n = (self.leg_n+1)%4
         if self.prev_buttons[1] != self.buttons[1] and self.prev_buttons[1] == 0:
@@ -146,7 +149,7 @@ class Motion_Module:
                 self.balance_mode = True
     
     def leg_balance_tester(self, leg_timings, norm_time, vel, turn_rate, spine_mode, offset_mode):
-        # Mode to test the balance ability of the spine balance mode
+        """ Balance mode to test the spines ability to compensate COM shifts. This is purely a test mode. """
         
         leg_states = np.array([1,1,1,1])
         leg_states[self.leg_n] = 0
@@ -161,6 +164,7 @@ class Motion_Module:
         return (target_leg_positions, q_legs, q_spine)
 
     def balance_mode_gen_q_leg(self, ql, leg_states):
+        """ Generates the leg positions for the balance mode. This is purely a test mode. """
         ad_val = np.abs(leg_states - np.ones((4,)))
         ad_val = np.reshape(ad_val,(4,1))
         front_neutral = np.array([0.42,0.6])
@@ -202,7 +206,7 @@ class Motion_Module:
     def main(self):
         try:
 
-            self.motion_node(rate=100)
+            self.motion_node(rate=50)
         except rospy.ROSInterruptException:
             pass
 
