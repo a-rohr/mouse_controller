@@ -125,7 +125,13 @@ class Motion_Module:
                 # Steps of the full controller to generate values
                 target_leg_positions, q_legs, q_spine = self.leg_controller.run_controller(leg_states, leg_timings, norm_time, vel, self.turn_rate, self.spine_mode, self.offset_mode)
             else:
-                target_leg_positions, q_legs, q_spine = self.leg_balance_tester(leg_timings, norm_time, vel, self.turn_rate, self.spine_mode, self.offset_mode)
+                # Balance mode currently being used to relax the motors, as in default mode the legs are fully tensioned
+                # This leads to high heat output from the motors. 
+                # To use balance mode, simple uncomment the line below.
+                target_leg_positions, q_legs, q_spine = self.relax_mode()
+
+                # This is for balance mode. Uncomment if you want to use that mode
+                # target_leg_positions, q_legs, q_spine = self.leg_balance_tester(leg_timings, norm_time, vel, self.turn_rate, self.spine_mode, self.offset_mode)
             self.gen_messages(target_leg_positions, q_legs, q_spine)
             r.sleep()
 
@@ -143,10 +149,18 @@ class Motion_Module:
         if self.prev_buttons[2] != self.buttons[2] and self.prev_buttons[2] == 0:
             self.spine_mode = (self.spine_mode+1)%3
         if self.prev_buttons[3] != self.buttons[3] and self.prev_buttons[3] == 0:
-            if self.offset_mode:
+            if self.balance_mode:
                 self.balance_mode = False
             else:
                 self.balance_mode = True
+
+    def relax_mode(self):
+        q_spine = 0.0
+        q_legs = np.array([0.0, 0.8, 0.0, 0.8, 0.0, -0.9, 0.0, -0.9])
+        target_leg_positions = np.ones((4,2))
+        # q_spine = 0.0
+        return (target_leg_positions, q_legs, q_spine)
+
     
     def leg_balance_tester(self, leg_timings, norm_time, vel, turn_rate, spine_mode, offset_mode):
         """ Balance mode to test the spines ability to compensate COM shifts. This is purely a test mode. """
@@ -206,7 +220,7 @@ class Motion_Module:
     def main(self):
         try:
 
-            self.motion_node(rate=50)
+            self.motion_node(rate=80)
         except rospy.ROSInterruptException:
             pass
 
