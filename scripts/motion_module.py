@@ -124,6 +124,7 @@ class Motion_Module:
             if not self.balance_mode:
                 # Steps of the full controller to generate values
                 target_leg_positions, q_legs, q_spine = self.leg_controller.run_controller(leg_states, leg_timings, norm_time, vel, self.turn_rate, self.spine_mode, self.offset_mode)
+                q_tail = self.tail_extension(norm_time, self.vel_in)
             else:
                 # Balance mode currently being used to relax the motors, as in default mode the legs are fully tensioned
                 # This leads to high heat output from the motors. 
@@ -132,8 +133,15 @@ class Motion_Module:
 
                 # This is for balance mode. Uncomment if you want to use that mode
                 # target_leg_positions, q_legs, q_spine = self.leg_balance_tester(leg_timings, norm_time, vel, self.turn_rate, self.spine_mode, self.offset_mode)
-            self.gen_messages(target_leg_positions, q_legs, q_spine)
+            self.gen_messages(target_leg_positions, q_legs, q_spine, q_tail)
             r.sleep()
+    
+    def tail_extension(self, timing: float,vel: float, offset=0, scaling=0.5) -> float:
+        # THis function helps extend the spine stride during gait.
+        # Timing value: is normalized time value [0,1]
+        scale = min(4.5*np.abs(vel)**2, scaling)
+        q_tail = scale*np.cos(2*np.pi*timing+offset)
+        return q_tail
 
     def check_button_sets(self):
         """ Checks the current state of the controller inputs PS4-Controller (Cross, Circle, Triangle, Square)."""
@@ -156,7 +164,7 @@ class Motion_Module:
 
     def relax_mode(self):
         q_spine = 0.0
-        q_legs = np.array([0.0, 0.8, 0.0, 0.8, 0.0, -0.9, 0.0, -0.9])
+        q_legs = np.array([0.0, 1.5, 0.0, 1.5, 0.0, -1.2, 0.0, -1.2])
         target_leg_positions = np.ones((4,2))
         # q_spine = 0.0
         return (target_leg_positions, q_legs, q_spine)
@@ -199,9 +207,9 @@ class Motion_Module:
         return q_legs
     
 
-    def gen_messages(self, target_leg_positions, q_legs, q_spine):
+    def gen_messages(self, target_leg_positions, q_legs, q_spine, q_tail):
         target_leg_positions.astype(dtype=np.float32)
-        q_values = np.concatenate((q_legs,np.array(([0,0,0,q_spine]))))
+        q_values = np.concatenate((q_legs,np.array(([q_tail,0,0,q_spine]))))
         q_values.astype(dtype=np.float32)
         # print(q_values)
 
