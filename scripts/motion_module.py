@@ -66,7 +66,7 @@ class Motion_Module:
         # 2: turning motion + balance mode (balance mode for 2 and 3 leg contact)
         self.spine_mode = 0
         self.offset_mode = False
-        self.balance_mode = False
+        self.balance_mode = True
         self.fsm = Leg_State_Machine(self.general_st_parameters2)
         self.leg_controller = Leg_Controller(self.gait_parameters2, self.mouse_parameters)
         self.vel_in = 0.0
@@ -130,6 +130,9 @@ class Motion_Module:
                 # This leads to high heat output from the motors. 
                 # To use balance mode, simple uncomment the line below.
                 target_leg_positions, q_legs, q_spine = self.relax_mode()
+                q_tail = 0
+
+            # q_tail = 0
 
                 # This is for balance mode. Uncomment if you want to use that mode
                 # target_leg_positions, q_legs, q_spine = self.leg_balance_tester(leg_timings, norm_time, vel, self.turn_rate, self.spine_mode, self.offset_mode)
@@ -209,7 +212,7 @@ class Motion_Module:
 
     def gen_messages(self, target_leg_positions, q_legs, q_spine, q_tail):
         target_leg_positions.astype(dtype=np.float32)
-        q_values = np.concatenate((q_legs,np.array(([q_tail,0,0,q_spine]))))
+        q_values = np.concatenate((q_legs,np.array(([q_tail,0.5*self.turn_rate,0,q_spine]))))
         q_values.astype(dtype=np.float32)
         # print(q_values)
 

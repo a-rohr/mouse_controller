@@ -67,7 +67,7 @@ class High_Level_Control:
         # Only use SLEEP in tests with fixed velocity
         sleep(6)
         while(not rospy.is_shutdown()):
-            vel_in = 0.3*rospy.get_param("/vel_ly")
+            vel_in = 0.4*rospy.get_param("/vel_ly")
             #vel_in = 0.4
             turn_rate = rospy.get_param("/vel_rx")
             buttons = [rospy.get_param("x_trigger"),rospy.get_param("o_trigger"),rospy.get_param("t_trigger"),rospy.get_param("s_trigger")]
