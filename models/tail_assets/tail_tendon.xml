@@ -1,6 +1,6 @@
 <mujoco>
     <tendon>
-        <spatial name="m1_tail_tendon1" limited="true" range="0 0.1863" width="0.0005" rgba=".1 .1 .8 0.5">
+        <spatial name="m1_tail_tendon1" limited="true" range="0 0.1863" width="0.0005" rgba="1 .4 .4 0.5">
             <site site="servo_tail_1"/>
             <site site="st_1"/>
             <site site="st_3"/>
@@ -44,7 +44,7 @@
             <site site="st_79"/>
         </spatial>
 
-        <spatial name="m1_tail_tendon2" limited="true" range="0 0.1863" width="0.0005" rgba=".1 .1 .8 0.5">
+        <spatial name="m1_tail_tendon2" limited="true" range="0 0.1863" width="0.0005" rgba="1 .4 .4 0.5">
             <site site="servo_tail_2"/>
             <site site="st_2"/>
             <site site="st_4"/>

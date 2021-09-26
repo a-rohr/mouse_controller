@@ -38,7 +38,7 @@ class Leg_Controller:
         return
 
     def run_controller(self, leg_states, leg_timings, norm_time, leg_velocities, turn_rate, spine_mode, offset_mode):
-        alphas = self.compute_turn_alphas_log(turn_rate)
+        alphas = self.compute_turn_alphas_exponentially(turn_rate)
         print("Alpha values: {}".format(alphas))
 
         next_leg_positions = self.compute_next_leg_positions(leg_states, leg_timings, leg_velocities, alphas)

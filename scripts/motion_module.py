@@ -129,6 +129,7 @@ class Motion_Module:
                 # Balance mode currently being used to relax the motors, as in default mode the legs are fully tensioned
                 # This leads to high heat output from the motors. 
                 # To use balance mode, simple uncomment the line below.
+                # target_leg_positions, q_legs, q_spine = self.leg_balance_tester(leg_timings, norm_time, vel, self.turn_rate, self.spine_mode, self.offset_mode)
                 target_leg_positions, q_legs, q_spine = self.relax_mode()
                 q_tail = 0
 
@@ -182,7 +183,7 @@ class Motion_Module:
         tl, ql, q_spine = self.leg_controller.run_controller(leg_states, leg_timings, norm_time, vel, turn_rate, spine_mode, offset_mode)
         q1_c = -0.15 + 3*self.vel_in
         q2_c = -0.66 + self.turn_rate
-        q_legs = np.array([0.42,0.6,0.42,0.6,-0.15,-0.66,q1_c,q2_c])
+        q_legs = np.array([0.42,1,0.42,1,-0.15,-0.66,q1_c,q2_c])
         q_legs = self.balance_mode_gen_q_leg(ql,leg_states)
         target_leg_positions = np.ones((4,2))
         # q_spine = 0.0
@@ -192,7 +193,7 @@ class Motion_Module:
         """ Generates the leg positions for the balance mode. This is purely a test mode. """
         ad_val = np.abs(leg_states - np.ones((4,)))
         ad_val = np.reshape(ad_val,(4,1))
-        front_neutral = np.array([0.42,0.6])
+        front_neutral = np.array([0.42,1])
         rear_neutral = np.array([-0.15,-0.66])
 
         static_vals = np.array([front_neutral,
@@ -212,7 +213,7 @@ class Motion_Module:
 
     def gen_messages(self, target_leg_positions, q_legs, q_spine, q_tail):
         target_leg_positions.astype(dtype=np.float32)
-        q_values = np.concatenate((q_legs,np.array(([q_tail,0.5*self.turn_rate,0,q_spine]))))
+        q_values = np.concatenate((q_legs,np.array(([q_tail,0,0,q_spine]))))
         q_values.astype(dtype=np.float32)
         # print(q_values)
 
