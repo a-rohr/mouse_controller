@@ -1,0 +1,30 @@
+<!--
+
+
+
+
+
+
+
+-->
+
+<launch>
+    <!--  -->
+    <param name="vel_lx" type="double" value="0.0" />
+    <param name="vel_ly" type="double" value="0.0" />
+    <param name="vel_rx" type="double" value="0.0" />
+    <param name="vel_ry" type="double" value="0.0" />
+    <param name="vel_dx" type="double" value="0.0" />
+    <param name="vel_dy" type="double" value="0.0" />
+    <param name="x_trigger" type="int" value="0" />
+    <param name="o_trigger" type="int" value="0" />
+    <param name="t_trigger" type="int" value="0" />
+    <param name="s_trigger" type="int" value="0" />
+
+    <!-- Start the playstation 4 joystick listener -->
+    <node name="mouse_runner" pkg="mouse_controller" type="mouse_runner.py" />
+    <node name="motion_module" pkg="mouse_controller" type="motion_module.py" />
+    <node name="mouse_sim" pkg="mouse_controller" type="mouse_simulation.py" />
+    <node name="high_level_controller" pkg="mouse_controller" type="high_level_controller.py" output="screen"/>
+    <node name="mqtt_publisher" pkg="mouse_controller" type="mqtt_publisher.py" />
+</launch>
